@@ -5,6 +5,12 @@ axios.defaults.baseURL = "";
 //http request 拦截器
 
 export default {
+  post(url, data) {
+    return axios.post(url, data);
+  },
+  get(url, data) {
+    return axios.get(url, data);
+  },
   /* 获取新歌 */
   getNewSongs() {
     return axios.get("/m/?json=true");

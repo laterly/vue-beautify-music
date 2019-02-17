@@ -1,19 +1,21 @@
 <template>
-    <div class="index">
-     <van-button type="default">默认按钮</van-button><router-link to="/list"  slot="left">
-            <h1 class="logo-box">
-              酷狗
-            </h1>
-          </router-link>
-    </div>
+  <div class="index flex-column height-percent-100">
+      <header-top></header-top>
+      <tabs-top></tabs-top>
+  </div>
 </template>
 <script>
+import headerTop from '@/components/Moudle/headerTop/headerTop'
+import tabsTop from '@/components/Moudle/tabsTop/tabsTop'
 export default {
-  name: "index",
+  components: {
+    headerTop,
+    tabsTop
+  },
   mounted() {},
   data() {
     return {
-      sarchValue: "", //搜索的关键字
+      sarchValue: "111", //搜索的关键字
     };
   },
   created() {},
@@ -26,16 +28,5 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
-.index-search {
-  height: 1rem;
-}
-.swipe-box {
-  height: 3.66rem;
-  img {
-    height: 3.66rem;
-  }
-}
-.index-tab{
-  height .5rem;
-}
+
 </style>

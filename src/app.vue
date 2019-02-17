@@ -16,9 +16,11 @@
     },
     watch: {
       '$route' (to, from) {
-        const toDepth = to.path.split('/').length
-        const fromDepth = from.path.split('/').length
-        this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+        console.log(to,from);
+        const toDepth = to.path.split('/').length;
+        const fromDepth = from.path.split('/').length;
+        if(to.path===from.path)
+          this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
       }
     },
   }
@@ -37,10 +39,10 @@
     width: 100%;
     transition: all .4s ease;
   }
-  .slide-left-enter, .slide-right-leave-active {
+.slide-left-enter, .slide-right-leave-active {
     transform: translateX(100%);
   }
-  .slide-left-leave-active, .slide-right-enter {
+.slide-left-leave-active, .slide-right-enter {
     transform: translateX(-100%);
-  }
+}
 </style>

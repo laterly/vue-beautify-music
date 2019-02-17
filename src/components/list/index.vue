@@ -1,12 +1,15 @@
 <template>
     <div class="index">
      <van-button type="default">默认按钮</van-button>list
+     <router-link to="/list"  slot="left">
+            <h1 class="logo-box">
+              酷狗
+            </h1>
+          </router-link>
     </div>
 </template>
 <script>
-import http from '@/utils/common/http.js'
 export default {
-  name: "index",
   mounted() {},
   data() {
     return {
@@ -14,8 +17,9 @@ export default {
     };
   },
   created() {
-     http.getSingerClassify().then((res) => {
+     this.$http.getSingerClassify().then((res) => {
         console.log(res);
+        console.log('111');
       })
   },
   mounted() {

@@ -1,19 +1,16 @@
 // Import Vue
 import Vue from 'vue';
-
-// Import App Component
-import App from './app.vue';
-//定义全局变量
 import router from "./router";
-
-// Init F7 Vue Plugin
-import { Button, Cell } from "vant";
-Vue.use(Button);
+import store from "./store";
+import App from "./app.vue";
+import http from "./utils/common/http";
 import './utils/base'
+Vue.prototype.$http = http;
 // Init App
 new Vue({
   el: "#app",
   router,
+  store,
   // Register App Component
   render: h => h(App)
 });
