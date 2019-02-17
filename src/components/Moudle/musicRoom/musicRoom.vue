@@ -1,6 +1,6 @@
 <template>
     <div class="music-room">
-    <div class="swiper">
+    <div class="swiper-banner">
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item, index) in slides" :key="index"><img :src="item" />
         </swiper-slide>
@@ -33,6 +33,16 @@
         <div class="title">
           推荐歌单
         </div>
+        <div class="swiper-slide-box">
+          <swiper :options="slideOption">
+            <swiper-slide v-for="(item, index) in slides1" :key="index">
+            <div><img :src="item" /></div>
+            <p class="swiper-img-des text-elli">
+              窗外的风景，在我眼里都不及你的
+            </p>
+            </swiper-slide>
+          </swiper>
+        </div>
       </div>
     </div>
     </div>
@@ -55,6 +65,14 @@ export default {
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg'
       ],
+      slides1: [
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180050&di=0d2ee92eead284e8133d6df07535d75a&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16988_sc115.com.jpg',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180050&di=0d2ee92eead284e8133d6df07535d75a&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16988_sc115.com.jpg',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg',
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg'
+      ],
       swiperOption: {
         loop:true,
         initialSlide :1,
@@ -66,7 +84,16 @@ export default {
         autoplayDisableOnInteraction : false,
         slidesPerView: "auto",//设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
         centeredSlides: true//<span style="color:rgb(68,68,68);font-family:'microsoft yahei';font-size:13px;">设定为true时，活动块会居中，而不是默认状态下的居左。</span>
-      }
+      },
+       slideOption: {
+        slidesPerView: 2.5,
+        paginationClickable: true,
+        spaceBetween: 10,
+        slidesPerView: 'auto',
+        freeMode: false,
+        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+        observeParents:true,//修改swiper的父元素时，自动初始化swiper
+      },
     }
   },
   created() {
@@ -83,7 +110,7 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
-.swiper{
+.swiper-banner{
     width 100%;
     height: 4.8rem;
     overflow: hidden;
@@ -116,6 +143,7 @@ export default {
 }
 .nav{
   margin-top:.64rem;
+  padding-bottom:.45rem;
   ul{
     margin:0 .5rem;
     li{
@@ -141,8 +169,34 @@ export default {
     font-size:.72rem;
     height:1.9rem;
     line-height:2rem;
-    text-indent:.48rem;
     font-weight:bold;
+    text-indent:.48rem;
+  }
+  .swiper-slide-box{
+    width:100%;
+    padding-left:.48rem;
+   .swiper-slide{
+      width:6.88rem;
+      height: 6.28rem;
+      img{
+          display: block;
+          margin: 0 auto;
+          margin-top: 3.5%;
+          // width: 90.625%;
+          width: 100%;
+          height: 4.88rem;;
+          vertical-align: middle;
+          -webkit-transition: all 1s ease 0s;
+          -moz-transition: all 1s ease 0s;
+          -ms-transition: all 1s ease 0s;
+          -o-transition: all 1s ease 0s;
+          transition: all 1s ease 0s;
+        }
+        .swiper-img-des{
+          font-size:.42rem;
+          color:#000;
+        }
+      } 
   }
 }
 </style>
