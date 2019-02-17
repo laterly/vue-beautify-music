@@ -1,10 +1,6 @@
 <template>
     <div class="index">
-     1411<router-link to="/list"  slot="left">
-            <h1 class="logo-box">
-              酷狗
-            </h1>
-          </router-link>
+     list
     </div>
 </template>
 <script>

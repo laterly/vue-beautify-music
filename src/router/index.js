@@ -4,7 +4,7 @@ import Router from "vue-router";
 // import Index from '../components/Index'
 // 懒加载
 const Index = () => import("../components/index/Index");
-
+const List = () => import("../components/list/Index");
 Vue.use(Router);
 
 export default new Router({
@@ -12,6 +12,10 @@ export default new Router({
     {
       path: "/",
       component: Index
+    },
+    {
+      path: "/list",
+      component: List
     }
   ]
 });
