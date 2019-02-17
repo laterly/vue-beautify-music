@@ -1,6 +1,6 @@
 <template>
     <div class="index">
-     1411<router-link to="/list"  slot="left">
+     <van-button type="default">默认按钮</van-button><router-link to="/list"  slot="left">
             <h1 class="logo-box">
               酷狗
             </h1>

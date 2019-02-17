@@ -10,6 +10,11 @@ module.exports = {
   "plugins": [
     "transform-vue-jsx",
     // "@babel/plugin-transform-runtime",
-    "@babel/plugin-syntax-dynamic-import"
+    "@babel/plugin-syntax-dynamic-import",
+    ['import', {
+      libraryName: 'vant',
+      libraryDirectory: 'es',
+      style: true
+    }, 'vant']
   ]
 };

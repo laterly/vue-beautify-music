@@ -1,9 +1,10 @@
 <template>
     <div class="index">
-     list
+     <van-button type="default">默认按钮</van-button>list
     </div>
 </template>
 <script>
+import http from '@/utils/common/http.js'
 export default {
   name: "index",
   mounted() {},
@@ -12,7 +13,11 @@ export default {
       sarchValue: "", //搜索的关键字
     };
   },
-  created() {},
+  created() {
+     http.getSingerClassify().then((res) => {
+        console.log(res);
+      })
+  },
   mounted() {
     
   },
