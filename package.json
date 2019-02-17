@@ -1,7 +1,7 @@
 {
-  "name": "framework7-template-vue-webpack",
+  "name": "vue-webpack",
   "version": "2.0.0",
-  "description": "Framework7 Vue Webpack starter app template",
+  "description": "vue-webapp",
   "scripts": {
     "build-dev": "node ./build/dev.js",
     "build-prod": "node ./build/prod.js",
@@ -16,22 +16,15 @@
     "url": "git+https://github.com/framework7io/framework7-template-vue-webpack.git"
   },
   "keywords": [
-    "ios",
     "webpack",
-    "framework7",
     "vue",
     "vuejs",
     "material",
     "mobile",
-    "app",
-    "f7"
+    "app"
   ],
-  "author": "Vladimir Kharlampidi",
+  "author": "latery",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/framework7io/framework7-template-vue-webpack/issues"
-  },
-  "homepage": "http://framework7.io/vue/",
   "dependencies": {
     "material-design-icons": "^3.0.1",
     "vue": "^2.6.3",

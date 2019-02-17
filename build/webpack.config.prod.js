@@ -11,8 +11,6 @@ const path = require('path');
 function resolvePath(dir) {
   return path.join(__dirname, '..', dir);
 }
-console.log('111');
-console.log(resolvePath("src"));
 module.exports = {
   mode: "production",
   entry: ["./src/app.js"],
@@ -36,6 +34,9 @@ module.exports = {
     watchOptions: {
       poll: true
     }
+  },
+  performance: {
+    hints: "warning"
   },
   module: {
     rules: [
