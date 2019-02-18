@@ -47,6 +47,9 @@ export default {
   }
   .van-field__control{
     text-indent:.42rem;
+    color: #323233;
+    font-size:14px;
+    font-weight normal;
   }
   .van-field__clear, .van-field__right-icon{
     margin-right:.1rem;

@@ -166,7 +166,7 @@ export default {
     }
   }
 }
-.swiper-box{
+.swiper-big-box{
   .title{
     font-size:.72rem;
     height:1.9rem;
@@ -184,7 +184,7 @@ export default {
           display: block;
           margin: 0 auto;
           margin-top: 3.5%;
-          // width: 90.625%;
+          width: 90.625%;
           width: 100%;
           height: 4.88rem;;
           vertical-align: middle;

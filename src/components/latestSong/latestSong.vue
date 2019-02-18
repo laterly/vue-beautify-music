@@ -85,9 +85,9 @@ export default {
         font-size 16px;
     }
     .rank-des{
-        width .38rem;
-        height .38rem;
-        line-height .38rem;
+        width 12px;
+        height 12px;
+        line-height 12px;
         border-radius 100%;
         border 1px #ccc solid;
         text-align center;
