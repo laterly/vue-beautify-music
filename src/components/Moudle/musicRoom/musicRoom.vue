@@ -1,8 +1,9 @@
 <template>
-    <div class="music-room">
+  <div class="music-room">
     <div class="swiper-banner">
-      <swiper :options="swiperOption">
-        <swiper-slide v-for="(item, index) in slides" :key="index"><img :src="item" />
+      <swiper :options="swiperOption" ref="mySwiper">
+        <swiper-slide v-for="(item, index) in slides" :key="index">
+          <img :src="item.imgUrl">
         </swiper-slide>
       </swiper>
     </div>
@@ -10,19 +11,19 @@
       <ul class="flex-row">
         <li @click="goLink('/latest')">
           <div class="link-icon linkc">
-              <img src="@/assets/index/song.png" alt="" class="img-responsive">
+            <img src="@/assets/index/song.png" alt class="img-responsive">
           </div>
           <div class="link-des">最新歌曲</div>
         </li>
         <li @click="goLink('/menu')">
           <div class="link-icon linkc">
-              <img src="@/assets/index/menu.png" alt="" class="img-responsive">
+            <img src="@/assets/index/menu.png" alt class="img-responsive">
           </div>
           <div class="link-des">音乐歌单</div>
         </li>
         <li @click="goLink('/rank')">
           <div class="link-icon linkc">
-              <img src="@/assets/index/rank.png" alt="" class="img-responsive">
+            <img src="@/assets/index/rank.png" alt class="img-responsive">
           </div>
           <div class="link-des">排行榜</div>
         </li>
@@ -30,9 +31,7 @@
     </div>
     <div class="swiper-big-box">
       <div class="swiper-box">
-        <div class="title">
-          推荐歌单
-        </div>
+        <div class="title">推荐歌单</div>
         <div class="swiper-slide-box">
           <!-- <swiper :options="slideOption">
             <swiper-slide v-for="(item, index) in slides1" :key="index">
@@ -41,164 +40,199 @@
               窗外的风景，在我眼里都不及你的
             </p>
             </swiper-slide>
-          </swiper> -->
+          </swiper>-->
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 <script>
-import { swiper, swiperSlide } from 'vue-awesome-swiper';
-import 'swiper/dist/css/swiper.css';
+import {mapActions} from 'vuex'
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.css";
+import store from '@/utils/common/store'
 export default {
-     components: {
-      swiper,
-      swiperSlide
-    },
+  components: {
+    swiper,
+    swiperSlide
+  },
   data() {
     return {
-      slides: [
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180050&di=0d2ee92eead284e8133d6df07535d75a&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16988_sc115.com.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180050&di=0d2ee92eead284e8133d6df07535d75a&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16988_sc115.com.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg'
-      ],
+      slides: [],
       slides1: [
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180050&di=0d2ee92eead284e8133d6df07535d75a&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16988_sc115.com.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180050&di=0d2ee92eead284e8133d6df07535d75a&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16988_sc115.com.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg'
+        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180050&di=0d2ee92eead284e8133d6df07535d75a&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16988_sc115.com.jpg",
+        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg",
+        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg",
+        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180050&di=0d2ee92eead284e8133d6df07535d75a&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16988_sc115.com.jpg",
+        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=7412fd486c47c15f1d27485be0d7bd28&imgtype=0&src=http%3A%2F%2Fwww.duoxinqi.com%2Fimages%2F2012%2F06%2F20120605_8.jpg",
+        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg"
       ],
       swiperOption: {
-        loop:true,
-        initialSlide :1,
+        initialSlide: 1,
         autoplay: {
-        delay: 3000,
-        stopOnLastSlide: false,
-        disableOnInteraction: false,
+          delay: 3000,
+          stopOnLastSlide: false,
+          disableOnInteraction: false
         },
-        autoplayDisableOnInteraction : false,
-        slidesPerView: "auto",//设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
-        centeredSlides: true//<span style="color:rgb(68,68,68);font-family:'microsoft yahei';font-size:13px;">设定为true时，活动块会居中，而不是默认状态下的居左。</span>
+        autoplayDisableOnInteraction: false,
+        centerInsufficientSlides: true,
+        observer: true, //修改swiper自己或子元素时，自动初始化swiper
+        observeParents: true, //修改swiper的父元素时，自动初始化swiper
+        slidesPerView: "auto", //设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
+        centeredSlides: true //<span style="color:rgb(68,68,68);font-family:'microsoft yahei';font-size:13px;">设定为true时，活动块会居中，而不是默认状态下的居左。</span>
       },
-       slideOption: {
+      slideOption: {
         slidesPerView: 2.5,
         paginationClickable: true,
         spaceBetween: 10,
-        slidesPerView: 'auto',
+        slidesPerView: "auto",
         freeMode: false,
-        observer:true,//修改swiper自己或子元素时，自动初始化swiper
-        observeParents:true,//修改swiper的父元素时，自动初始化swiper
-      },
-    }
+        observer: true, //修改swiper自己或子元素时，自动初始化swiper
+        observeParents: true //修改swiper的父元素时，自动初始化swiper
+      }
+    };
   },
   created() {
-    //  http.getSingerClassify().then((res) => {
-    //     console.log(res);
-    //   })
+    // this.getBanner();
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.swiper
+    },
+    count () {
+      return this.$store.state.count
+    }
   },
   mounted() {
-         
+   this.$store.commit('increment');
   },
   methods: {
-    goLink(link){
-      this.$router.push({path: `${link}`}); 
-    }
+    getBanner() {
+      this.$http.getNewSongs().then(res => {
+        // this.banner = res.data.banner
+        store.session.set('newSong',res.data.data);
+        console.log("res", res);
+        let data = res.data.banner;
+        for (let i = 0; i < data.length; i++) {
+          this.slides.push({
+            id: data[i].id,
+            imgUrl: data[i].imgurl,
+            title: data[i].title
+          });
+        }
+        this.swiper.slideNext();
+        
+      });
+    },
+    goLink(link) {
+      this.$router.push({ path: `${link}` });
+    },
+   
+    
   }
 };
 </script>
 <style lang="stylus" scoped>
-.swiper-banner{
-    width 100%;
-    height: 4.8rem;
-    overflow: hidden;
-    margin-top:.24rem;
-    .swiper-slide{
-      width: 80%;
-      height: 4.8rem;
-      img{
-          display: block;
-          margin: 0 auto;
-          margin-top: 3.5%;
-          // width: 90.625%;
-          width: 100%;
-          height: 90.625%;
-          vertical-align: middle;
-          -webkit-transition: all 1s ease 0s;
-          -moz-transition: all 1s ease 0s;
-          -ms-transition: all 1s ease 0s;
-          -o-transition: all 1s ease 0s;
-          transition: all 1s ease 0s;
-        }
-      }
-      .swiper-slide-active{
-         img{
-            margin-top: 0;
-            width: 100%;
-            height: 100%;
-            }
-        }
+.swiper-banner {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  margin-top: 0.24rem;
+
+  .swiper-slide {
+    width: 80%;
+    height: 140px;
+
+    img {
+      display: block;
+      margin: 0 auto;
+      margin-top: 3.5%;
+      // width: 90.625%;
+      width: 100%;
+      height: 90.625%;
+      vertical-align: middle;
+      -webkit-transition: all 1s ease 0s;
+      -moz-transition: all 1s ease 0s;
+      -ms-transition: all 1s ease 0s;
+      -o-transition: all 1s ease 0s;
+      transition: all 1s ease 0s;
+    }
+  }
+
+  .swiper-slide-active {
+    img {
+      margin-top: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
-.nav{
-  margin-top:.64rem;
-  padding-bottom:.45rem;
-  ul{
-    margin:0 .5rem;
-    li{
-      width:33%;
-      height:auto;
+
+.nav {
+  margin-top: 0.64rem;
+  padding-bottom: 0.45rem;
+
+  ul {
+    margin: 0 0.5rem;
+
+    li {
+      width: 33%;
+      height: auto;
+
       .link-icon {
         margin: 0 auto;
       }
+
       .linkc {
-        width: 1.04rem;
-        height: .96rem;
+        width: 30px;
+        height: auto;
       }
+
       .link-des {
         text-align: center;
-        font-size:.48rem;
-        margin-top:.18rem;
+        font-size: 14px;
       }
     }
   }
 }
-.swiper-big-box{
-  .title{
-    font-size:.72rem;
-    height:1.9rem;
-    line-height:2rem;
-    font-weight:bold;
-    text-indent:.48rem;
+
+.swiper-big-box {
+  .title {
+    font-size: 0.62rem;
+    height: 1.6rem;
+    line-height: 1.7rem;
+    font-weight: bold;
+    text-indent: 0.48rem;
   }
-  .swiper-slide-box{
-    width:100%;
-    padding-left:.48rem;
-   .swiper-slide{
-      width:6.88rem;
+
+  .swiper-slide-box {
+    width: 100%;
+    padding-left: 0.48rem;
+
+    .swiper-slide {
+      width: 6.88rem;
       height: 6.28rem;
-      img{
-          display: block;
-          margin: 0 auto;
-          margin-top: 3.5%;
-          width: 90.625%;
-          width: 100%;
-          height: 4.88rem;;
-          vertical-align: middle;
-          -webkit-transition: all 1s ease 0s;
-          -moz-transition: all 1s ease 0s;
-          -ms-transition: all 1s ease 0s;
-          -o-transition: all 1s ease 0s;
-          transition: all 1s ease 0s;
-        }
-        .swiper-img-des{
-          font-size:.42rem;
-          color:#000;
-        }
-      } 
+
+      img {
+        display: block;
+        margin: 0 auto;
+        margin-top: 3.5%;
+        width: 90.625%;
+        width: 100%;
+        height: 4.88rem;
+        vertical-align: middle;
+        -webkit-transition: all 1s ease 0s;
+        -moz-transition: all 1s ease 0s;
+        -ms-transition: all 1s ease 0s;
+        -o-transition: all 1s ease 0s;
+        transition: all 1s ease 0s;
+      }
+
+      .swiper-img-des {
+        font-size: 0.42rem;
+        color: #000;
+      }
+    }
   }
 }
 </style>
