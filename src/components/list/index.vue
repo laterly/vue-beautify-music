@@ -17,10 +17,10 @@ export default {
     };
   },
   created() {
-     this.$http.getSingerClassify().then((res) => {
-        console.log(res);
-        console.log('111');
-      })
+    //  this.$http.getSingerClassify().then((res) => {
+    //     console.log(res);
+    //     console.log('111');
+    //   })
   },
   mounted() {
     

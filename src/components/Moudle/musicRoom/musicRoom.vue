@@ -8,19 +8,19 @@
     </div>
     <div class="nav">
       <ul class="flex-row">
-        <li>
+        <li @click="goLink('/latest')">
           <div class="link-icon linkc">
               <img src="@/assets/index/song.png" alt="" class="img-responsive">
           </div>
           <div class="link-des">最新歌曲</div>
         </li>
-        <li>
+        <li @click="goLink('/menu')">
           <div class="link-icon linkc">
               <img src="@/assets/index/menu.png" alt="" class="img-responsive">
           </div>
           <div class="link-des">音乐歌单</div>
         </li>
-        <li>
+        <li @click="goLink('/rank')">
           <div class="link-icon linkc">
               <img src="@/assets/index/rank.png" alt="" class="img-responsive">
           </div>
@@ -34,14 +34,14 @@
           推荐歌单
         </div>
         <div class="swiper-slide-box">
-          <swiper :options="slideOption">
+          <!-- <swiper :options="slideOption">
             <swiper-slide v-for="(item, index) in slides1" :key="index">
             <div><img :src="item" /></div>
             <p class="swiper-img-des text-elli">
               窗外的风景，在我眼里都不及你的
             </p>
             </swiper-slide>
-          </swiper>
+          </swiper> -->
         </div>
       </div>
     </div>
@@ -105,7 +105,9 @@ export default {
          
   },
   methods: {
-    
+    goLink(link){
+      this.$router.push({path: `${link}`}); 
+    }
   }
 };
 </script>

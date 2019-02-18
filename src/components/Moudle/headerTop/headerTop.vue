@@ -4,7 +4,7 @@
         <div class="van-nav-bar__left">
           <i class="van-icon van-icon-wap-nav van-nav-bar__arrow"></i>
         </div>
-        <router-link to="/list"  slot="left">
+        <router-link to="/Search"  slot="left">
         <div class="van-nav-bar__title van-ellipsis">
          <div class="van-cell van-cell--borderless van-field">
             <div class="van-cell__value van-cell__value--alone">
