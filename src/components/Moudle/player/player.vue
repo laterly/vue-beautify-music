@@ -81,13 +81,13 @@
           this.$store.dispatch('revisePlay',false);
       },
       onChange () {
-         if (this.play) {
+        //  if (this.play) {
           // let e = event || window.event;
           // console.log(e);
           let site = this.$store.state.player.nowPlaying.newRangeValue / 100 * this.player.nowPlaying.timelength;
           this.$store.dispatch('reviseCurrentTime',document.getElementById('audioPlay').currentTime*1000);
           document.getElementById('audioPlay').currentTime = site / 1000;
-        }
+        // }
        
       },
       revisePlay(){
