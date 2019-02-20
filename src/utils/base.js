@@ -12,7 +12,8 @@ import {
   Tabs,
   Collapse,
   CollapseItem,
-  AddressList
+  AddressList,
+  Toast
 } from "vant";
 Vue.use(Icon)
   .use(Button)
@@ -22,4 +23,28 @@ Vue.use(Icon)
   .use(Tab)
   .use(Tabs)
   .use(Collapse)
-  .use(CollapseItem).use(AddressList);
+  .use(CollapseItem)
+  .use(AddressList)
+  .use(Toast);
+function loading(text){ 
+ return Toast.loading({
+   duration: 0, // 持续展示 toast
+   forbidClick: true, // 禁用背景点击
+   message: text || "请稍后..."
+ });
+}
+let toast = {
+  msg: (text) => {
+    Toast(text);
+  },
+  success: (text) => {
+    Toast.success(text);
+  },
+  fail: (text) => {
+    Toast.fail(text);
+  }
+};
+
+Vue.prototype.$loading = loading;
+Vue.$toast = toast;
+

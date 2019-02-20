@@ -93,7 +93,12 @@ export default {
     };
   },
   created() {
-    // this.getBanner();
+    let bannerData=store.session.get('banner')?store.session.get('banner'):[];
+    console.log(bannerData);
+    if(Number(bannerData)===0)
+      this.getBanner();
+    else
+      this.slides=bannerData
   },
   computed: {
     swiper() {
@@ -104,12 +109,13 @@ export default {
     }
   },
   mounted() {
-   this.$store.commit('increment');
+    
   },
   methods: {
     getBanner() {
+      let load=this.$loading();
       this.$http.getNewSongs().then(res => {
-        // this.banner = res.data.banner
+        load.clear();
         store.session.set('newSong',res.data.data);
         console.log("res", res);
         let data = res.data.banner;
@@ -120,8 +126,9 @@ export default {
             title: data[i].title
           });
         }
-        this.swiper.slideNext();
-        
+        store.session.set('banner',this.slides);
+        if(data.length>3)
+          this.swiper.slideNext();
       });
     },
     goLink(link) {
@@ -135,21 +142,20 @@ export default {
 <style lang="stylus" scoped>
 .swiper-banner {
   width: 100%;
-  height: 140px;
+  height: auto;
   overflow: hidden;
   margin-top: 0.24rem;
 
   .swiper-slide {
     width: 80%;
-    height: 140px;
-
+    height: auto;
     img {
       display: block;
       margin: 0 auto;
       margin-top: 3.5%;
       // width: 90.625%;
       width: 100%;
-      height: 90.625%;
+      height: auto;
       vertical-align: middle;
       -webkit-transition: all 1s ease 0s;
       -moz-transition: all 1s ease 0s;
@@ -169,8 +175,8 @@ export default {
 }
 
 .nav {
-  margin-top: 0.64rem;
-  padding-bottom: 0.45rem;
+  margin-top: 0.14rem;
+  // padding-bottom: 0.45rem;
 
   ul {
     margin: 0 0.5rem;
@@ -198,7 +204,7 @@ export default {
 
 .swiper-big-box {
   .title {
-    font-size: 0.62rem;
+    font-size: 0.52rem;
     height: 1.6rem;
     line-height: 1.7rem;
     font-weight: bold;

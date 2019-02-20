@@ -45,7 +45,6 @@ module.exports = {
         use: "babel-loader",
         include: [
           resolvePath("src"),
-          resolvePath("node_modules/dom7"),
           resolvePath("node_modules/ssr-window")
         ]
       },

@@ -16,7 +16,7 @@ export default {
     };
   },
   created() {
-      this.getNewSong();
+    
   },
   mounted() {},
   methods: {

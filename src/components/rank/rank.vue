@@ -29,7 +29,11 @@ export default {
     };
   },
   created() {
-    this.getRank();
+    let rankData=store.session.get('rankData')?store.session.get('rankData'):[];
+    if(Number(rankData)===0)
+      this.getRank();
+    else
+      this.list=rankData
   },
   computed: {
     ...mapState({
@@ -39,7 +43,9 @@ export default {
   mounted() {},
   methods: {
     getRank() {
+      let load=this.$loading();
       this.$http.getRank().then(res => {
+        load.clear();
         let data = res.data.rank.list;
         for (let item of data) {
           this.list.push({
@@ -49,6 +55,7 @@ export default {
             rankId: item.rankid
           });
         }
+        store.session.set('rankData',this.list);
         console.log(res);
       });
     },

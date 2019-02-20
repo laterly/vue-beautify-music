@@ -6,6 +6,7 @@ import App from "./app.vue";
 import http from "./utils/common/http";
 import './utils/base'
 Vue.prototype.$http = http;
+
 // Init App
 new Vue({
   el: "#app",

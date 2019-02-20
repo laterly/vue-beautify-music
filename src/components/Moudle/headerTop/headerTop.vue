@@ -37,6 +37,8 @@ export default {
   }
   .van-nav-bar__text,.van-nav-bar .van-icon{
     color:#000;
+  }
+  .van-nav-bar .van-nav-bar__arrow,.van-nav-bar .van-nav-bar__right{
     font-size:.6rem;
   }
   .van-cell{
