@@ -1,5 +1,6 @@
 <template>
-  <div class="rank">
+  <div class="rank main">
+    {{count}}
     <van-nav-bar
       title="排行榜"
       left-text="返回"
@@ -37,10 +38,14 @@ export default {
   },
   computed: {
     ...mapState({
-      koGouSize: state => state.koGouSize
+      koGouSize: state => state.koGouSize,
+      count:state=>state.count
     })
   },
-  mounted() {},
+  mounted() {
+     this.$store.commit('increment',222)
+      this.$store.dispatch('minusPriceAsync', 5);
+  },
   methods: {
     getRank() {
       let load=this.$loading();

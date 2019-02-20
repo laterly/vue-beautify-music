@@ -5,6 +5,7 @@
         <swiper-slide v-for="(item, index) in slides" :key="index">
           <img :src="item.imgUrl">
         </swiper-slide>
+         <div class="swiper-pagination"  slot="pagination"></div>
       </swiper>
     </div>
     <div class="nav">
@@ -33,14 +34,11 @@
       <div class="swiper-box">
         <div class="title">推荐歌单</div>
         <div class="swiper-slide-box">
-          <!-- <swiper :options="slideOption">
-            <swiper-slide v-for="(item, index) in slides1" :key="index">
-            <div><img :src="item" /></div>
-            <p class="swiper-img-des text-elli">
-              窗外的风景，在我眼里都不及你的
-            </p>
-            </swiper-slide>
-          </swiper>-->
+            <ul class="flex-center">
+              <li>1</li>
+              <li>2</li>
+              <li>3</li>
+            </ul>
         </div>
       </div>
     </div>
@@ -68,11 +66,15 @@ export default {
         "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg"
       ],
       swiperOption: {
+        loop : true,
         initialSlide: 1,
         autoplay: {
           delay: 3000,
           stopOnLastSlide: false,
           disableOnInteraction: false
+        },
+        pagination: {
+            el: '.swiper-pagination'
         },
         autoplayDisableOnInteraction: false,
         centerInsufficientSlides: true,
@@ -145,8 +147,15 @@ export default {
   height: auto;
   overflow: hidden;
   margin-top: 0.24rem;
-
+  .swiper-slide:first-child{
+     padding-left:0;
+  }
+  .swiper-slide:last-child{
+    padding-right:10px;
+  }
   .swiper-slide {
+    padding-left:10px;
+    padding-right:10px;
     width: 80%;
     height: auto;
     img {
@@ -163,14 +172,19 @@ export default {
       -o-transition: all 1s ease 0s;
       transition: all 1s ease 0s;
     }
+
   }
 
   .swiper-slide-active {
     img {
-      margin-top: 0;
       width: 100%;
-      height: 100%;
+      height: auto;
     }
+  }
+  .swiper-pagination-bullet{
+    width: 16px;
+    height: 2px;
+    background #23e379;  
   }
 }
 
@@ -203,42 +217,17 @@ export default {
 }
 
 .swiper-big-box {
-  .title {
-    font-size: 0.52rem;
-    height: 1.6rem;
-    line-height: 1.7rem;
-    font-weight: bold;
-    text-indent: 0.48rem;
-  }
-
-  .swiper-slide-box {
-    width: 100%;
-    padding-left: 0.48rem;
-
-    .swiper-slide {
-      width: 6.88rem;
-      height: 6.28rem;
-
-      img {
-        display: block;
-        margin: 0 auto;
-        margin-top: 3.5%;
-        width: 90.625%;
-        width: 100%;
-        height: 4.88rem;
-        vertical-align: middle;
-        -webkit-transition: all 1s ease 0s;
-        -moz-transition: all 1s ease 0s;
-        -ms-transition: all 1s ease 0s;
-        -o-transition: all 1s ease 0s;
-        transition: all 1s ease 0s;
-      }
-
-      .swiper-img-des {
-        font-size: 0.42rem;
-        color: #000;
-      }
+    .title {
+      font-size: 0.52rem;
+      height: 1.6rem;
+      line-height: 1.7rem;
+      font-weight: bold;
+      text-indent: 0.48rem;
     }
-  }
+
+    .swiper-slide-box {
+      
+    }
 }
+
 </style>

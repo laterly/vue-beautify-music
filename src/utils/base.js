@@ -13,7 +13,8 @@ import {
   Collapse,
   CollapseItem,
   AddressList,
-  Toast
+  Toast,
+  Slider 
 } from "vant";
 Vue.use(Icon)
   .use(Button)
@@ -25,7 +26,8 @@ Vue.use(Icon)
   .use(Collapse)
   .use(CollapseItem)
   .use(AddressList)
-  .use(Toast);
+  .use(Toast)
+  .use(Slider);
 function loading(text){ 
  return Toast.loading({
    duration: 0, // 持续展示 toast

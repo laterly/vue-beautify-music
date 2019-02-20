@@ -1,5 +1,5 @@
 <template>
-    <div class="search">
+    <div class="search main">
         <form action="/">
         <van-search
             autofocus="autofocus"

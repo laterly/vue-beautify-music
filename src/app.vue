@@ -3,11 +3,16 @@
    <transition :name="transitionName" slot="default">
     <router-view class="child-view"></router-view>
     </transition>
+    <player style="position:fixed;left:0;bottom:0;width:100%;z-index:102;" slot="bottom"></player>
   </div>
 </template>
 
 <script>
+import player from '@/components/Moudle/player/player'
   export default {
+    components: {
+      player
+    },
     name: 'app',
     data () {
       return {
