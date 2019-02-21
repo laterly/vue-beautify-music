@@ -1,5 +1,5 @@
 <template>
-    <div class="tab main flex1">
+    <div class="tab flex1">
       <van-tabs v-model="active" animated>
         <van-tab v-for="(item,index) in tabs" :title="item.name" :key="index">
            <my v-if="active===0"></my>
