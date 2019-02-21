@@ -1,5 +1,5 @@
 <template>
-  <div class="index flex-column height-percent-100">
+  <div class="index flex-column">
       <header-top></header-top>
       <tabs-top></tabs-top>
   </div>

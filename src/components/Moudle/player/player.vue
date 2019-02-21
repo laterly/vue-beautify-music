@@ -85,14 +85,9 @@
           
       },
       onChange () {
-        //  if (this.play) {
-          // let e = event || window.event;
-          // console.log(e);
           let site = this.$store.state.player.nowPlaying.newRangeValue / 100 * this.player.nowPlaying.timelength;
           this.$store.dispatch('reviseCurrentTime',document.getElementById('audioPlay').currentTime*1000);
           document.getElementById('audioPlay').currentTime = site / 1000;
-        // }
-       
       },
       revisePlay(){
         if(this.$store.state.player.nowPlaying.song_name=='在线音乐')

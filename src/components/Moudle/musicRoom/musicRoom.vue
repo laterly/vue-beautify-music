@@ -35,8 +35,6 @@
         <div class="title">推荐歌单</div>
         <div class="recommend">
             <div class="recommend-ul clearfix">
-            <swiper :options="swiperOption1"  ref="mySwiper1">
-            <swiper-slide>
               <div class="recommend-li rel" v-for="(item, index) in songData" :key="index">
                 <div class="recommend-box rel">
                   <img :src="item.imgUrl.replace('{size}', koGouSize)"/>
@@ -44,8 +42,6 @@
                 </div>
                 <div class="text">{{item.specialName}}</div>
               </div>
-            </swiper-slide>
-              </swiper>
             </div>
         </div>
       </div>
@@ -91,32 +87,6 @@ export default {
         slidesPerView: "auto", //设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
         centeredSlides: true //<span style="color:rgb(68,68,68);font-family:'microsoft yahei';font-size:13px;">设定为true时，活动块会居中，而不是默认状态下的居左。</span>
       },
-      swiperOption1: {
-        initialSlide: 1,
-        autoplay: {
-          delay: 3000,
-          stopOnLastSlide: false,
-          disableOnInteraction: false
-        },
-        pagination: {
-            el: '.swiper-pagination'
-        },
-        autoplayDisableOnInteraction: false,
-        centerInsufficientSlides: true,
-        observer: true, //修改swiper自己或子元素时，自动初始化swiper
-        observeParents: true, //修改swiper的父元素时，自动初始化swiper
-        slidesPerView: "auto", //设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
-        centeredSlides: true //<span style="color:rgb(68,68,68);font-family:'microsoft yahei';font-size:13px;">设定为true时，活动块会居中，而不是默认状态下的居左。</span>
-      },
-      slideOption: {
-        slidesPerView: 2.5,
-        paginationClickable: true,
-        spaceBetween: 3,
-        slidesPerView: "auto",
-        freeMode: false,
-        observer: true, //修改swiper自己或子元素时，自动初始化swiper
-        observeParents: true //修改swiper的父元素时，自动初始化swiper
-      },
       songData:[]
     };
   },
@@ -138,9 +108,6 @@ export default {
   computed: {
     swiper() {
       return this.$refs.mySwiper.swiper
-    },
-    swiper1() {
-      return this.$refs.mySwiper.swiper1
     },
     count () {
       return this.$store.state.count
@@ -183,9 +150,6 @@ export default {
         load.clear();
         let data=res.data.plist.list.info;
         for(let i=0;i<data.length;i++){
-          if(i==3){
-            return;
-          }
           this.songData.push({
             suid:data[i].suid,
             imgUrl:data[i].imgurl,
@@ -287,12 +251,8 @@ export default {
       height:auto;
       .recommend-ul{
         width: 100%;
-        height: 4.4rem;
         padding-top .28rem;
-        // .swiper-slide{
-        //   width:2.8rem;
-        //   padding-left:.48rem;
-        // }
+        padding-left .48rem;
         .swiper-slide:last-child{
           padding-right:.48rem;
         }
@@ -315,7 +275,7 @@ export default {
           width:2.78rem;
           margin-top:.48rem;
           float:left;
-          margin-left:.68rem;
+          margin-right:.48rem;
           .recommend-box{
             z-index:2;
             width:2.78rem;
