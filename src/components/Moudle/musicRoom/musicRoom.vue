@@ -122,13 +122,18 @@ export default {
   },
   created() {
     let bannerData=store.session.get('banner')?store.session.get('banner'):[];
-    console.log(bannerData);
     if(Number(bannerData)===0)
       this.getBanner();
     else
       this.slides=bannerData;
 
-    this.getSong();
+    let songData=store.session.get('songData')?store.session.get('songData'):[];
+        console.log(songData);
+     if(Number(songData)===0)
+       this.getSong();
+    else
+      this.songData=songData;
+   
   },
   computed: {
     swiper() {
@@ -176,7 +181,6 @@ export default {
         page: 0
       }).then((res) => {
         load.clear();
-        console.log(res);
         let data=res.data.plist.list.info;
         for(let i=0;i<data.length;i++){
           if(i==3){
@@ -189,7 +193,8 @@ export default {
             specialName:data[i].specialname
           });
         }
-        console.log(this.songData);
+        store.session.set('songData',this.songData);
+        console.log('this.songData',this.songData);
         this.swiper.update();
       })
     },

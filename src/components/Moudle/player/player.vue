@@ -77,8 +77,12 @@
         let newRange=parseInt(newTime*100/songTimeLength);
         this.$store.dispatch('reviseCurrentTime',document.getElementById('audioPlay').currentTime*1000);
         this.$store.dispatch('reviseRange',newRange);
-        if(newRange==100)
+        if(newRange==100){
           this.$store.dispatch('revisePlay',false);
+          //循环下首歌
+          this.next();
+        }
+          
       },
       onChange () {
         //  if (this.play) {
@@ -93,7 +97,12 @@
       revisePlay(){
         if(this.$store.state.player.nowPlaying.song_name=='在线音乐')
           return;
-        this.$store.dispatch('revisePlay',!this.$store.state.player.play);
+        if(this.$store.state.player.nowPlaying.newRangeValue===100){
+          this.$store.dispatch('reviseRange',0);
+          this.$store.dispatch('reviseCurrentTime',0);
+          document.getElementById('audioPlay').currentTime=0;
+        }
+          this.$store.dispatch('revisePlay',!this.$store.state.player.play);
       },
       next(){
         let nowHash=this.$store.state.player.nowPlaying.hash;
