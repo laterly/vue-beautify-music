@@ -17,7 +17,10 @@ import {
   Slider,
   Swipe,
   SwipeItem,
-  Lazyload
+  Lazyload,
+  Card,
+  Tag,
+  Popup 
 } from "vant";
 Vue.use(Icon)
   .use(Button)
@@ -33,7 +36,10 @@ Vue.use(Icon)
   .use(Slider)
   .use(Swipe)
   .use(SwipeItem)
-  .use(Lazyload);
+  .use(Lazyload)
+  .use(Card)
+  .use(Tag)
+  .use(Popup);
   Vue.use(Lazyload, {
     preLoad: 1.3,
     error: 'dist/error.png',

@@ -15,7 +15,7 @@
       <img class="rank-img" :src="item.imgUrl.replace('{size}', koGouSize)" />
       <div class="van-cell__value van-cell__value--alone van-contact-card__value">
         <div>{{item.rankName}}</div>
-        <div>{{item.updateFrequency}}更新</div>
+        <div style="color: #7d7e80;font-size:12px;">{{item.updateFrequency}}更新</div>
       </div>
       <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
     </div>
@@ -93,6 +93,9 @@ export default {
     }
     .van-nav-bar__text {
         color: #23e379;
+    }
+    .van-cell__right-icon{
+      color #23e379
     }
 }
 </style>

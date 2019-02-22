@@ -13,7 +13,8 @@ const Latest = () => import("../components/latestSong/latestSong");
 const Rank = () => import("../components/rank/rank");
 //歌单
 const Menu = () => import("../components/menu/menu");
-
+//歌单详情
+const MenuDetail = () => import("../components/menuDetail/menuDetail");
 const List = () => import("../components/list/index");
 Vue.use(Router);
 
@@ -38,6 +39,10 @@ export default new Router({
     {
       path: "/menu",
       component: Menu
+    },
+    {
+      path: "/menuDetail",
+      component: MenuDetail
     },
     {
       path: "/list",

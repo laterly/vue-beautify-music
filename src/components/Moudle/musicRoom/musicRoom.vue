@@ -35,7 +35,7 @@
         <div class="title">推荐歌单</div>
         <div class="recommend">
             <div class="recommend-ul clearfix">
-              <div class="recommend-li rel" v-for="(item, index) in songData[0]" :key="index">
+              <div class="recommend-li rel" v-for="(item, index) in songData[0]" :key="index" @click="openMenu(item.specialid)">
                 <div class="recommend-box rel">
                   <img v-lazy="item.imgUrl.replace('{size}', koGouSize)" />
                   <div class="recommend-desc abs"><van-icon name="audio" /><span>{{item.playCount}}</span></div>
@@ -49,7 +49,7 @@
         <div class="title">推荐合辑</div>
         <div class="recommend">
             <div class="recommend-ul clearfix">
-              <div class="recommend-li rel" v-for="(item, index) in songData[1]" :key="index">
+              <div class="recommend-li rel" v-for="(item, index) in songData[1]" :key="index" @click="openMenu(item.specialid)">
                 <div class="recommend-box rel">
                   <img v-lazy="item.imgUrl.replace('{size}', koGouSize)" />
                   <div class="recommend-desc abs"><van-icon name="audio" /><span>{{item.playCount}}</span></div>
@@ -137,12 +137,14 @@ export default {
     
   },
   methods: {
+    openMenu(specialid){
+      this.$router.push({ path: '/menuDetail',query:{specialid:specialid}});
+    },
     getBanner() {
       let load=this.$loading();
       this.$http.getNewSongs().then(res => {
         load.clear();
         store.session.set('newSong',res.data.data);
-        console.log("res", res);
         let data = res.data.banner;
         for (let i = 0; i < data.length; i++) {
           this.slides.push({
@@ -152,7 +154,7 @@ export default {
           });
         }
         store.session.set('banner',this.slides);
-        if(data.length>3)
+        if(data.length>=3)
           this.swiper.slideNext();
       });
     },
@@ -171,12 +173,12 @@ export default {
             suid:data[i].suid,
             imgUrl:data[i].imgurl,
             playCount:numberUnit.convert(data[i].playcount),
-            specialName:data[i].specialname
+            specialName:data[i].specialname,
+            specialid:data[i].specialid
           });
         }
         this.songData=array.splitArrary(this.songData,6);
         store.session.set('songData',this.songData);
-        console.log('this.songData',this.songData);
         this.swiper.update();
       })
     },
@@ -287,14 +289,14 @@ export default {
             background:rgba(#23e379,.2);
             transform-origin:right bottom;
             left:-3px;
-            top:-2px;
+            top:-1px;
           }
         .recommend-li{
           height:auto;
           width:2.78rem;
           margin-top:.48rem;
           float:left;
-          margin-right:.68rem;
+          margin-right:.62rem;
           .recommend-box{
             z-index:2;
             width:2.78rem;
@@ -303,7 +305,7 @@ export default {
             img{
               width:2.78rem;
               height:100%;
-              border-radius:3px;
+              border-radius:4px;
             }
             .recommend-desc{
               color #fff;

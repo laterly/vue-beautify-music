@@ -6,6 +6,8 @@ const store = new Vuex.Store({
   state: {
     koGouSize: 400,
     count:0,
+    menuTitle:'',
+    menuTitleImg:'',
     songList:{
       list:[]
     },
@@ -17,6 +19,7 @@ const store = new Vuex.Store({
       play: false,
       maxPlayerShow: false,
       nowIndex: -1,
+      playLisytType: 1,        //1：本地存储的列表 2播放songList的列表
       playMode: 1,       // 1：顺序播放 2：随机播放 3：单曲循环
       nowPlaying: {
         author_name: '就是歌多',
@@ -78,7 +81,13 @@ const store = new Vuex.Store({
     },
     decrement (state) {
       state.count -= 1
-    }
+    },
+    setMenuTitle (state, payload) {
+      state.menuTitle = payload
+    },
+    setMenuTitleImg (state, payload) {
+      state.menuTitleImg = payload
+    },
   },
   actions:{ //添加actions
     loadPlayerList (context, payload) {
@@ -107,6 +116,12 @@ const store = new Vuex.Store({
     },
     reviseNowIndex (context, payload) {
       context.commit('reviseNowIndex', payload)
+    },
+    setMenuTitle (context, payload) {
+      context.commit('setMenuTitle', payload)
+    },
+    setMenuTitleImg (context, payload) {
+      context.commit('setMenuTitleImg', payload)
     },
   }
 })

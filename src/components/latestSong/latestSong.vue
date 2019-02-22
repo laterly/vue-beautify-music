@@ -3,7 +3,7 @@
         <van-nav-bar title="最新歌曲" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
             <van-icon name="search" slot="right"/>
         </van-nav-bar>
-        <div class="van-cell van-cell--clickable van-address-item" v-for="(item, index) in list" :key="index" @click="getSongDetails(item.hash)">
+        <div class="van-cell van-cell--clickable van-address-item" v-for="(item, index) in list" :key="index" @click="getSongDetails(item)">
           <div class="van-cell__value van-cell__value--alone van-address-item__value">
             <div class="van-radio">
                 <div class="van-radio__icon van-radio__icon--round">
@@ -67,13 +67,13 @@ export default {
             });
         }
     },
-     getSongDetails (hash) {
-        if(hash===this.$store.state.player.nowPlaying.hash){
+     getSongDetails (item) {
+        if(item.hash===this.$store.state.player.nowPlaying.hash){
              this.$store.dispatch('revisePlay',!this.$store.state.player.play);
              return;
         }
         this.$http.getSongDetails({
-          hash: hash
+          hash: item.hash
         }).then((res) => {
           this.addPlayerList={
             hash: res.data.data.hash,
@@ -93,7 +93,7 @@ export default {
             hashArr.push(item.hash);
           }
           if(!hashArr.includes(res.data.data.hash)){
-              newPlayList.push(this.addPlayerList);
+              newPlayList.push(item);
           }
           store.local.set('localPlayList',newPlayList)
         })
@@ -113,9 +113,6 @@ export default {
         .van-icon {
             color: #23e379;
         }
-    }
-    .van-address-item__value{
-        padding-right: 60px;
     }
     .van-nav-bar__text {
         color: #23e379;

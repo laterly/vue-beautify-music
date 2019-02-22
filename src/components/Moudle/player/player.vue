@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="minPlayer">
     <!-- {{player}} -->
     <audio :src="player.nowPlaying.play_url" :autoplay="play" id="audioPlay" @timeupdate="change()"></audio>
@@ -15,10 +16,41 @@
       <div class="minPlayer-ct-btn">
         <i :class="['van-icon', play ? 'van-icon-pause-circle-o' : 'van-icon-play-circle-o']" @click="revisePlay()"></i>
         <i class="van-icon van-icon-upgrade" @click="next"></i>
-        <i class="van-icon van-icon-todo-list-o"></i>
+        <i class="van-icon van-icon-todo-list-o" @click="playListPopup"></i>
       </div>
     </div>
   </div>
+   <van-popup v-model="show" position="bottom" :overlay="true">
+      <div class="van-nav-bar van-hairline--bottom" style="z-index: 1;">
+        <div class="van-nav-bar__left">
+          <i class="van-icon van-icon-play-circle-o van-nav-bar__arrow"></i>
+          <span class="van-nav-bar__text">列表循环<span>(共{{totalSong}}首)</span></span>
+        </div>
+      </div>
+      <div style="max-height:6rem;overflow:auto">
+       <div
+        class="van-cell van-cell--clickable van-address-item"
+        v-for="(item, index) in list"
+        :key="index"
+        @click="getSongDetails(item.hash)"
+      >
+        <div class="van-cell__value van-cell__value--alone van-address-item__value">
+          <div class="van-radio">
+            <div class="van-radio__icon van-radio__icon--round">
+              <div class="rank-des">{{index+1}}</div>
+            </div>
+            <span class="van-radio__label">
+              <div class="van-address-item__name">{{item.filename}}</div>
+            </span>
+          </div>
+        </div>
+        <i
+          :class="['van-icon van-address-item__edit', play&&item.hash===hash ? 'van-icon-pause-circle-o' : 'van-icon-play-circle-o']"
+        ></i>
+      </div>
+      </div>
+    </van-popup>
+</div>
 </template>
 
 <script>
@@ -54,7 +86,10 @@
       return {
         rotate: 0,
         timer: '',
-        value:0
+        value:0,
+        show:false,
+        list:[],
+        totalSong:0
       }
     },
     created(){
@@ -66,10 +101,28 @@
         play: state => state.player.play,
         nowIndex: state => state.player.nowIndex,
         koGouSize: state => state.koGouSize,
-        count:state=>state.count
+        count:state=>state.count,
+        playLisytType:state=>state.player.playLisytType
       })
     },
     methods: {
+      getPlayList(){
+        this.list=[];
+        let type=this.$store.state.player.playLisytType
+        switch(type)
+        {
+          case 1:
+            let data=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
+            this.list=data;
+            this.totalSong=data.length;
+            break;
+          case 2:
+          
+            break;
+          default:
+         
+        }
+      },
       change () {
         let newTime=parseInt(document.getElementById('audioPlay').currentTime * 1000);
         let per=100;
@@ -121,6 +174,10 @@
           }
         }
         this.$store.commit('nowPlayList',data[0]);
+      },
+      playListPopup(){
+        this.show=true;
+        this.getPlayList();
       }
     }
   }
@@ -193,6 +250,9 @@
           &.van-icon-play-circle-o{
             color: #23e379;
           }
+          &.van-icon-pause-circle-o{
+             color: #23e379;
+          }
         }
       }
     }
@@ -225,4 +285,25 @@
       background-color: #51ccff;
     }
   }
+.van-popup{
+  .van-nav-bar__arrow {
+    color: #23e379!important;
+  }
+  .van-nav-bar__text {
+    color: #333;
+    span{
+        color: #7d7e80;
+        font-size: 12px;
+    }
+  }
+  .van-address-item {
+    padding: 10px 15px;
+  }
+  .van-address-item__edit {
+    color: #23e379;
+  }
+  .van-popup{
+    overflow: inherit;
+  }
+}
 </style>
