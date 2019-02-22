@@ -34,6 +34,13 @@ Vue.use(Icon)
   .use(Swipe)
   .use(SwipeItem)
   .use(Lazyload);
+  Vue.use(Lazyload, {
+    preLoad: 1.3,
+    error: 'dist/error.png',
+    loading: 'dist/loading.gif',
+    attempt: 1
+  })
+  
 function loading(text){ 
  return Toast.loading({
    duration: 0, // 持续展示 toast

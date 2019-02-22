@@ -26,7 +26,7 @@
           <div class="link-icon linkc">
             <img src="@/assets/index/rank.png" alt class="img-responsive">
           </div>
-          <div class="link-des">排行榜</div>
+          <div class="link-des">榜单</div>
         </li>
       </ul>
     </div>
@@ -35,10 +35,24 @@
         <div class="title">推荐歌单</div>
         <div class="recommend">
             <div class="recommend-ul clearfix">
-              <div class="recommend-li rel" v-for="(item, index) in songData" :key="index">
+              <div class="recommend-li rel" v-for="(item, index) in songData[0]" :key="index">
                 <div class="recommend-box rel">
-                  <img :src="item.imgUrl.replace('{size}', koGouSize)"/>
-                  <div class="recommend-desc abs"><van-icon name="audio" /><span>101万</span></div>
+                  <img v-lazy="item.imgUrl.replace('{size}', koGouSize)" />
+                  <div class="recommend-desc abs"><van-icon name="audio" /><span>{{item.playCount}}</span></div>
+                </div>
+                <div class="text">{{item.specialName}}</div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="swiper-box">
+        <div class="title">推荐合辑</div>
+        <div class="recommend">
+            <div class="recommend-ul clearfix">
+              <div class="recommend-li rel" v-for="(item, index) in songData[1]" :key="index">
+                <div class="recommend-box rel">
+                  <img v-lazy="item.imgUrl.replace('{size}', koGouSize)" />
+                  <div class="recommend-desc abs"><van-icon name="audio" /><span>{{item.playCount}}</span></div>
                 </div>
                 <div class="text">{{item.specialName}}</div>
               </div>
@@ -52,7 +66,9 @@
 import { mapState} from 'vuex'
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
-import store from '@/utils/common/store'
+import store from '@/utils/common/store';
+import array from '@/utils/common/array';
+import numberUnit from '@/utils/common/number';
 export default {
   components: {
     swiper,
@@ -87,7 +103,7 @@ export default {
         slidesPerView: "auto", //设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
         centeredSlides: true //<span style="color:rgb(68,68,68);font-family:'microsoft yahei';font-size:13px;">设定为true时，活动块会居中，而不是默认状态下的居左。</span>
       },
-      songData:[]
+      songData:[],
     };
   },
   created() {
@@ -99,11 +115,12 @@ export default {
 
     let songData=store.session.get('songData')?store.session.get('songData'):[];
         console.log(songData);
-     if(Number(songData)===0)
+     if(Number(songData)===0){
        this.getSong();
-    else
-      this.songData=songData;
-   
+    }
+    else{
+       this.songData=songData;
+    }
   },
   computed: {
     swiper() {
@@ -153,10 +170,11 @@ export default {
           this.songData.push({
             suid:data[i].suid,
             imgUrl:data[i].imgurl,
-            playCount:data[i].playcount,
+            playCount:numberUnit.convert(data[i].playcount),
             specialName:data[i].specialname
           });
         }
+        this.songData=array.splitArrary(this.songData,6);
         store.session.set('songData',this.songData);
         console.log('this.songData',this.songData);
         this.swiper.update();
@@ -178,11 +196,12 @@ export default {
     padding-right:10px;
   }
   .swiper-slide {
-    padding-left:10px;
-    padding-right:10px;
-    width: 80%;
+    padding-left:5px;
+    padding-right:5px;
+    width: 90%;
     height: auto;
     img {
+      border-radius 4px;
       display: block;
       margin: 0 auto;
       margin-top: 3.5%;
@@ -275,7 +294,7 @@ export default {
           width:2.78rem;
           margin-top:.48rem;
           float:left;
-          margin-right:.48rem;
+          margin-right:.68rem;
           .recommend-box{
             z-index:2;
             width:2.78rem;
@@ -287,7 +306,7 @@ export default {
               border-radius:3px;
             }
             .recommend-desc{
-              color rgba(255,255,255,.8);
+              color #fff;
               width:100%;
               height:100%;
               line-height:4.8rem;
@@ -299,6 +318,7 @@ export default {
               box-shadow:inset 0px 15px 15px -15px rgba(0,0,0,1),
               inset 0px -15px 15px -15px rgba(0,0,0,1);
               left 0;
+              text-indent: .06rem;
               span{
                 display:inline-block;
                 height:50px;
@@ -317,7 +337,7 @@ export default {
               display: box;
               font-size:14px;
               color:#333;
-              height: 1.2rem;
+              height: 1.1rem;
               padding-top:.1rem;
               line-height: 0.55rem;
             }

@@ -120,6 +120,9 @@ export default {
     .van-nav-bar__text {
         color: #23e379;
     }
+    .van-address-item{
+        padding: 10px 15px;
+    }
     .van-address-item__play{
         position: absolute;
         top: 50%;

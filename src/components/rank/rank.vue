@@ -1,6 +1,5 @@
 <template>
   <div class="rank main">
-    {{count}}
     <van-nav-bar
       title="排行榜"
       left-text="返回"
@@ -14,7 +13,10 @@
       class="van-cell van-cell--center van-cell--borderless van-cell--clickable van-contact-card van-contact-card--add"
     v-for="(item,index) in list" :key="index">
       <img class="rank-img" :src="item.imgUrl.replace('{size}', koGouSize)" />
-      <div class="van-cell__value van-cell__value--alone van-contact-card__value">{{item.rankName}}</div>
+      <div class="van-cell__value van-cell__value--alone van-contact-card__value">
+        <div>{{item.rankName}}</div>
+        <div>{{item.updateFrequency}}更新</div>
+      </div>
       <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
     </div>
   </div>
@@ -57,7 +59,8 @@ export default {
             rankName: item.rankname,
             id: item.id,
             imgUrl: item.imgurl,
-            rankId: item.rankid
+            rankId: item.rankid,
+            updateFrequency:item.update_frequency
           });
         }
         store.session.set('rankData',this.list);
@@ -76,8 +79,9 @@ export default {
 <style lang="stylus" scoped>
 .rank{
     .rank-img{
-        width 60px;
-        height 60px;
+        width 80px;
+        height auto;
+        border-radius 3px;
     }
     .van-cell__value--alone{
         text-indent .48rem;

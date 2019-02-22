@@ -190,6 +190,9 @@
             display: inline-block;
             transform: rotate(90deg);
           }
+          &.van-icon-play-circle-o{
+            color: #23e379;
+          }
         }
       }
     }
