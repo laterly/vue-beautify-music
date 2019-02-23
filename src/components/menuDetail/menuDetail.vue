@@ -1,6 +1,7 @@
 <template>
   <div class="menu-detail fullScreen menu">
-    <div class="vux-bg-blur" :style="'background:url('+info.imgUrl+') no-repeat center center'"></div>
+    <!-- <div class="vux-bg-blur" :style="'background:url('+info.imgUrl+') no-repeat center center'"></div> -->
+    <img :src="info.imgUrl" class="vux-bg-blur">
     <div class="menu-box rel">
       <van-nav-bar
         :title="menuTitle"
@@ -73,6 +74,7 @@
 
 <script>
 import { mapState } from "vuex";
+import store from '@/utils/common/store'
 export default {
   created() {
     this.getSong();
@@ -149,7 +151,6 @@ export default {
     ...mapState({
       koGouSize: state => state.koGouSize,
       menuTitle: state => state.menuTitle,
-      menuTitleImg: state => (state.menuTitleImg ? state.menuTitleImg : "111"),
       songListData: state => state.songList.list,
       playerList: state => state.playerList.list,
       player: state => state.player.player,

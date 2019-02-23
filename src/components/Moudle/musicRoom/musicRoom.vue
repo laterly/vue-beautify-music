@@ -179,7 +179,6 @@ export default {
         }
         this.songData=array.splitArrary(this.songData,6);
         store.session.set('songData',this.songData);
-        this.swiper.update();
       })
     },
     

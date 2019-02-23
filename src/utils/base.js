@@ -1,6 +1,6 @@
 import './base.styl'
-import rem from "./common/rem";
-rem();
+// import rem from "./common/rem";
+// rem();
 import Vue from "vue";
 import {
   Icon,
