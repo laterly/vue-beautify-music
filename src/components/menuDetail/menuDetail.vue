@@ -40,7 +40,7 @@
     </div>
     <div class="song-list-menu">
       <div class="van-nav-bar van-hairline--bottom" style="z-index: 1;">
-        <div class="van-nav-bar__left">
+        <div class="van-nav-bar__left" @click="playAll">
           <i class="van-icon van-icon-play-circle-o van-nav-bar__arrow"></i>
           <span class="van-nav-bar__text">播放全部<span>(共{{totalSong}}首)</span></span>
         </div>
@@ -87,7 +87,11 @@ export default {
     };
   },
   methods: {
-    playAll() {},
+    playAll() {
+      store.local.set('playSongList',this.list);
+      this.$store.commit('playListType',2);
+      this.getSongDetails(this.list[0])
+    },
     onClickLeft() {
       this.$router.go(-1); //返回上一层
     },
@@ -103,9 +107,9 @@ export default {
           nickname: list.nickname,
           tags: list.tags
         };
-        this.totalSong = res.data.list.list.total;
         this.$store.dispatch("setMenuTitle", this.info.specialname);
         let data = res.data.list.list.info;
+         this.totalSong = data.length;
         for (let i = 0; i < data.length; i++) {
           this.list.push({
             filename: data[i].filename,

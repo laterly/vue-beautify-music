@@ -27,7 +27,7 @@
           <span class="van-nav-bar__text">{{playModeList[playModeNum-1].name}}<span>(共{{totalSong}}首)</span></span>
         </div>
       </div>
-      <div style="height:6rem;overflow:auto">
+      <div style="height:8rem;overflow:auto">
        <div
         class="van-cell van-cell--clickable van-address-item"
         v-for="(item, index) in list"
@@ -117,7 +117,7 @@
         nowIndex: state => state.player.nowIndex,
         koGouSize: state => state.koGouSize,
         count:state=>state.count,
-        playLisytType:state=>state.player.playLisytType,
+        playListType:state=>state.player.playListType,
         hash: state=>state.player.nowPlaying.hash
       })
     },
@@ -215,7 +215,7 @@
       },
       getPlayList(){
         this.list=[];
-        let type=this.$store.state.player.playLisytType
+        let type=this.$store.state.player.playListType
         switch(type)
         {
           case 1:
@@ -224,7 +224,9 @@
             this.totalSong=data.length;
             break;
           case 2:
-          
+            let songData=store.local.get('playSongList')?store.local.get('playSongList'):[];
+            this.list=songData;
+            this.totalSong=songData.length;
             break;
           default:
          
