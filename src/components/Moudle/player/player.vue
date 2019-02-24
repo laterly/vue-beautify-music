@@ -23,30 +23,28 @@
    <van-popup v-model="show" position="bottom" :overlay="true">
       <div class="van-nav-bar van-hairline--bottom" style="z-index: 1;">
         <div class="van-nav-bar__left">
-          <i class="van-icon van-icon-play-circle-o van-nav-bar__arrow"></i>
+          <i class="van-icon van-icon-exchange van-nav-bar__arrow"></i>
           <span class="van-nav-bar__text">列表循环<span>(共{{totalSong}}首)</span></span>
         </div>
       </div>
-      <div style="max-height:6rem;overflow:auto">
+      <div style="height:6rem;overflow:auto">
        <div
         class="van-cell van-cell--clickable van-address-item"
         v-for="(item, index) in list"
         :key="index"
-        @click="getSongDetails(item.hash)"
       >
-        <div class="van-cell__value van-cell__value--alone van-address-item__value">
+        <div class="van-cell__value van-cell__value--alone van-address-item__value" @click="getSongDetails(item)">
           <div class="van-radio">
-            <div class="van-radio__icon van-radio__icon--round">
-              <div class="rank-des">{{index+1}}</div>
+            <div class="van-radio__box">
+              <div class="rank-des" v-if="play&&item.hash===hash"><van-icon name="music-o" :style="{ transform : 'rotate(' + rotate + 'deg)' }"/></div>
+              <div class="rank-des" v-else>{{index+1}}</div>
             </div>
             <span class="van-radio__label">
               <div class="van-address-item__name">{{item.filename}}</div>
             </span>
           </div>
         </div>
-        <i
-          :class="['van-icon van-address-item__edit', play&&item.hash===hash ? 'van-icon-pause-circle-o' : 'van-icon-play-circle-o']"
-        ></i>
+        <i class="van-icon van-address-item__edit van-icon-delete" style="color:#7d7e80" @click="delPlayList(item.hash)"></i>
       </div>
       </div>
     </van-popup>
@@ -102,27 +100,11 @@
         nowIndex: state => state.player.nowIndex,
         koGouSize: state => state.koGouSize,
         count:state=>state.count,
-        playLisytType:state=>state.player.playLisytType
+        playLisytType:state=>state.player.playLisytType,
+        hash: state=>state.player.nowPlaying.hash
       })
     },
     methods: {
-      getPlayList(){
-        this.list=[];
-        let type=this.$store.state.player.playLisytType
-        switch(type)
-        {
-          case 1:
-            let data=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
-            this.list=data;
-            this.totalSong=data.length;
-            break;
-          case 2:
-          
-            break;
-          default:
-         
-        }
-      },
       change () {
         let newTime=parseInt(document.getElementById('audioPlay').currentTime * 1000);
         let per=100;
@@ -131,9 +113,12 @@
         this.$store.dispatch('reviseCurrentTime',document.getElementById('audioPlay').currentTime*1000);
         this.$store.dispatch('reviseRange',newRange);
         if(newRange==100){
-          this.$store.dispatch('revisePlay',false);
           //循环下首歌
-          this.next();
+          this.$store.dispatch('revisePlay',false);
+          let playMode=store.local.get('playMode');
+          if(playMode===1){
+            this.next();
+          }
         }
           
       },
@@ -152,6 +137,20 @@
         }
           this.$store.dispatch('revisePlay',!this.$store.state.player.play);
       },
+      delPlay(){
+       this.$store.commit('nowPlayList',{
+        author_name: '就是歌多',
+        hash: '',
+        img: '',
+        lyrics: '',
+        play_url: '',
+        song_name: '在线音乐',
+        timelength: 0,
+        currentTime: 0,
+        newRangeValue:0
+      });
+      this.$store.dispatch('revisePlay',false);
+      },
       next(){
         let nowHash=this.$store.state.player.nowPlaying.hash;
         let newPlayList=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
@@ -166,19 +165,95 @@
              this.$toast('播放队列没有歌曲，请先播放几首歌曲后再操作');
              return;
           }else if(data[i].hash===nowHash&&i!=len-1){
-             this.$store.commit('nowPlayList',data[i+1]);
+             this.songDetails(data[i+1].hash)
              return;
           }else if(data[i].hash===nowHash&&i===len-1){
-             this.$store.commit('nowPlayList',data[0]);
+             this.songDetails(data[0].hash)
              return;
           }
         }
         this.$store.commit('nowPlayList',data[0]);
       },
+      getPlayList(){
+        this.list=[];
+        let type=this.$store.state.player.playLisytType
+        switch(type)
+        {
+          case 1:
+            let data=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
+            this.list=data;
+            this.totalSong=data.length;
+            break;
+          case 2:
+          
+            break;
+          default:
+         
+        }
+      },
+      delPlayList(hash){
+        this.list = this.list.filter((obj)=> {
+            if(hash===this.$store.state.player.nowPlaying.hash){
+              this.delPlay();
+            }
+						return hash !== obj.hash;
+				});
+      },
       playListPopup(){
         this.show=true;
         this.getPlayList();
-      }
+      },
+      songDetails(hash){
+        let detail=[];
+        this.$http.getSongDetails({
+          hash: hash
+        }).then((res) => {
+          detail={
+            hash: res.data.data.hash,
+            author_name: res.data.data.author_name,
+            song_name: res.data.data.song_name,
+            img: res.data.data.img,
+            play_url: res.data.data.play_url,
+            timelength: res.data.data.timelength,
+            lyrics: res.data.data.lyrics,
+            currentTime:0,
+            newRangeValue:0
+          }
+          this.$store.commit('nowPlayList',detail);
+        });
+      },
+      getSongDetails (item) {
+        console.log('zz',this.songDetails(item.hash));
+        if(item.hash===this.$store.state.player.nowPlaying.hash){
+             this.$store.dispatch('revisePlay',!this.$store.state.player.play);
+             return;
+        }
+        this.$http.getSongDetails({
+          hash: item.hash
+        }).then((res) => {
+          this.addPlayerList={
+            hash: res.data.data.hash,
+            author_name: res.data.data.author_name,
+            song_name: res.data.data.song_name,
+            img: res.data.data.img,
+            play_url: res.data.data.play_url,
+            timelength: res.data.data.timelength,
+            lyrics: res.data.data.lyrics,
+            currentTime:0,
+            newRangeValue:0
+          }
+          this.$store.commit('nowPlayList',this.addPlayerList);
+          let newPlayList=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
+          let hashArr=[];
+          for(let item of newPlayList){
+            hashArr.push(item.hash);
+          }
+          if(!hashArr.includes(res.data.data.hash)){
+              newPlayList.push(item);
+          }
+          store.local.set('localPlayList',newPlayList)
+        })
+      },
     }
   }
 </script>
@@ -287,7 +362,7 @@
   }
 .van-popup{
   .van-nav-bar__arrow {
-    color: #23e379!important;
+    color: #333!important;
   }
   .van-nav-bar__text {
     color: #333;
@@ -304,6 +379,21 @@
   }
   .van-popup{
     overflow: inherit;
+  }
+  .van-radio__box{
+    top: 50%;
+    left: 0;
+    height: 16px;
+    position: absolute;
+    line-height: 16px;
+    -webkit-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    .rank-des{
+      display: inline-block;
+      .van-icon-music-o{
+        color: #23e379;
+      }
+    }
   }
 }
 </style>

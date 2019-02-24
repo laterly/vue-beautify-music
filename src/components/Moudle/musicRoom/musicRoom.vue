@@ -121,6 +121,8 @@ export default {
     else{
        this.songData=songData;
     }
+
+    this.setPlayMode();
   },
   computed: {
     swiper() {
@@ -137,6 +139,10 @@ export default {
     
   },
   methods: {
+    setPlayMode(){
+      let playMode=store.local.get('playMode')?store.local.get('playMode'):1;
+      store.local.set('playMode',playMode);
+    },
     openMenu(specialid){
       this.$router.push({ path: '/menuDetail',query:{specialid:specialid}});
     },
