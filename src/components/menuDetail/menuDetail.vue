@@ -45,7 +45,8 @@
           <span class="van-nav-bar__text">播放全部<span>(共{{totalSong}}首)</span></span>
         </div>
       </div>
-      <div class="flex1 song-list-scroll" >
+      <div class="wrapper song-list-scroll" ref="wrapper">
+      <div class="content">
       <div
         class="van-cell van-cell--clickable van-address-item"
         v-for="(item, index) in list"
@@ -67,17 +68,27 @@
           :class="['van-icon van-address-item__edit', play&&item.hash===hash ? 'van-icon-pause-circle-o' : 'van-icon-play-circle-o']"
         ></i>
       </div>
+      </div>
     </div>
+
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import BScroll from 'better-scroll'
 import store from '@/utils/common/store'
 export default {
   created() {
     this.getSong();
+    
+  },
+  mounted(){
+    this.$nextTick(() => {
+       this.scroll = new BScroll(this.$refs.wrapper, {})
+       console.log(this.scroll)
+    })
   },
   data() {
     return {
@@ -287,7 +298,8 @@ export default {
     color: #23e379;
   }
   .song-list-scroll{
-      overflow: auto;
+    height:50vh;
+    overflow:hidden;
   }
 }
 </style>

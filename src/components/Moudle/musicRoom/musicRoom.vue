@@ -202,9 +202,9 @@ export default {
     padding-right:10px;
   }
   .swiper-slide {
-    padding-left:5px;
-    padding-right:5px;
-    width: 90%;
+    padding-left:.1rem;
+    padding-right:.1rem;
+    width: 85%;
     height: auto;
     img {
       border-radius 4px;
