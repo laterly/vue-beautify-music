@@ -86,6 +86,7 @@ export default {
             currentTime:0,
             newRangeValue:0
           }
+          console.log(this.addPlayerList);
           this.$store.commit('nowPlayList',this.addPlayerList);
           let newPlayList=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
           let hashArr=[];

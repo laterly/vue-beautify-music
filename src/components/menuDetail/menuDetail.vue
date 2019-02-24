@@ -86,7 +86,7 @@ export default {
   },
   mounted(){
     this.$nextTick(() => {
-       this.scroll = new BScroll(this.$refs.wrapper, {})
+       this.scroll = new BScroll(this.$refs.wrapper, this.options)
        console.log(this.scroll)
     })
   },
@@ -94,7 +94,11 @@ export default {
     return {
       info: [],
       totalSong: 0,
-      list: []
+      list: [],
+      options:{
+        click: true,
+        taps: true
+      }
     };
   },
   methods: {
@@ -149,6 +153,7 @@ export default {
             currentTime:0,
             newRangeValue:0
           }
+          console.log(this.addPlayerList);
           this.$store.commit('nowPlayList',this.addPlayerList);
           let newPlayList=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
           let hashArr=[];
@@ -183,7 +188,6 @@ export default {
   left: 0;
   width: 100%;
   background-color: #fff;
-  z-index: 101;
 }
 .menu-box {
   .van-hairline--bottom::after {
@@ -298,7 +302,7 @@ export default {
     color: #23e379;
   }
   .song-list-scroll{
-    height:50vh;
+    height:52vh;
     overflow:hidden;
   }
 }

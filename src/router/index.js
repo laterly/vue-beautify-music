@@ -15,6 +15,8 @@ const Rank = () => import("../components/rank/rank");
 const Menu = () => import("../components/menu/menu");
 //歌单详情
 const MenuDetail = () => import("../components/menuDetail/menuDetail");
+//歌词播放器
+const LyricsPlayer = () => import("../components/Moudle/lyricsPlayer/lyricsPlayer");
 const List = () => import("../components/list/index");
 Vue.use(Router);
 
@@ -49,6 +51,11 @@ export default new Router({
       path: "/menuDetail",
       component: MenuDetail,
       name: "menuDetail"
+    },
+    {
+      path: "/lyricsPlayer",
+      component: LyricsPlayer,
+      name: "lyricsPlayer"
     },
     {
       path: "/list",

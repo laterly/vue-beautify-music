@@ -3,7 +3,7 @@
   <div class="minPlayer">
     <!-- {{player}} -->
     <audio :src="player.nowPlaying.play_url" :autoplay="play" id="audioPlay" @timeupdate="change()"></audio>
-    <div class="minPlayer-img">
+    <div class="minPlayer-img" @click="openLyrics">
       <img v-if="player.nowPlaying.img" :style="{ transform : 'rotate(' + rotate + 'deg)' }" :src="player.nowPlaying.img" alt="">
       <img v-if="!player.nowPlaying.img" src="@/assets/player/songImg.png" alt="">
     </div>
@@ -54,8 +54,14 @@
 <script>
   import { mapState} from 'vuex'
   import store from '@/utils/common/store'
+  import Bus from '@/utils/common/bus'
   export default {
     watch: {
+      '$route' (to, from) {
+        const toDepth = to.path.split('/')[1].length;
+        const fromDepth = from.path.split('/')[1].length;
+        this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+      },
       play () {
         if (this.play) {
           document.getElementById('audioPlay').play()
@@ -86,6 +92,7 @@
         timer: '',
         value:0,
         show:false,
+        showLyrics:false,
         list:[],
         totalSong:0,
         playModeList:[{
@@ -109,6 +116,23 @@
     },
     created(){
       this.getPlayMode();
+    },
+    mounted(){
+      Bus.$on('playListPopup', (e) => {
+　　　　　this.playListPopup();
+      })
+      Bus.$on('changePlayMode', (e) => {
+　　　　　this.changePlayMode();
+      })
+      Bus.$on('prev', (e) => {
+　　　　　this.prev();
+      })
+      Bus.$on('next', (e) => {
+　　　　　this.next();
+      })
+      Bus.$on('revisePlay', (e) => {
+　　　　　this.revisePlay();
+      })
     },
     computed: {
       ...mapState({
@@ -213,6 +237,38 @@
         }
         this.$store.commit('nowPlayList',data[0]);
       },
+       prev(){
+        let nowHash=this.$store.state.player.nowPlaying.hash;
+        let newPlayList=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
+        if(newPlayList.length===0){
+          this.$toast('播放队列没有歌曲，请先播放几首歌曲后再操作');
+          return;
+        }
+        let data=newPlayList;
+        let len=data.length;
+        if(!nowHash){
+          this.songDetails(data[0].hash)
+          return;
+        }
+        if(this.playModeNum===2){
+          let randomNum=Math.round(Math.random()*len);
+          this.songDetails(data[randomNum].hash);
+          return;
+        }
+        for(let i=0;i<len;i++){
+          if(data[i].hash===nowHash&&len===1){
+             this.$toast('播放队列没有歌曲，请先播放几首歌曲后再操作');
+             return;
+          }else if(data[i].hash===nowHash&&i!=len-1){
+             this.songDetails(data[i-1].hash)
+             return;
+          }else if(data[i].hash===nowHash&&i===len-1){
+             this.songDetails(data[0].hash)
+             return;
+          }
+        }
+        this.$store.commit('nowPlayList',data[0]);
+      },
       getPlayList(){
         this.list=[];
         let type=this.$store.state.player.playListType
@@ -298,6 +354,7 @@
       },
       getPlayMode(){
         let playMode=store.local.get('playMode');
+        this.$store.commit('playMode',playMode);
         this.playModeNum=playMode;
       },
       changePlayMode(){
@@ -307,7 +364,12 @@
         }
         this.playModeNum=i;
         store.local.set('playMode',i);
+        this.$store.commit('playMode', this.playModeNum);
         this.$toast(this.playModeList[i-1].name);
+      },
+      //打开歌词弹窗
+      openLyrics(){
+         this.$router.push({ path: "/lyricsPlayer" });
       }
     }
   }

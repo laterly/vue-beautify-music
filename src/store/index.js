@@ -90,7 +90,10 @@ const store = new Vuex.Store({
     },
     playListType(state, payload) {
       state.player.playListType = payload;
-    }
+    },
+    playMode(state, payload) {
+      state.player.playMode = payload;
+    },
   },
   actions: {
     //添加actions
