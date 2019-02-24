@@ -21,11 +21,9 @@ import player from '@/components/Moudle/player/player'
     },
     watch: {
       '$route' (to, from) {
-        console.log(to,from);
-        const toDepth = to.path.split('/').length;
-        const fromDepth = from.path.split('/').length;
-        if(to.path===from.path)
-          this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+        const toDepth = to.path.split('/')[1].length;
+        const fromDepth = from.path.split('/')[1].length;
+        this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
       }
     },
   }

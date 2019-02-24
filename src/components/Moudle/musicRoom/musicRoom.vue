@@ -114,7 +114,6 @@ export default {
       this.slides=bannerData;
 
     let songData=store.session.get('songData')?store.session.get('songData'):[];
-        console.log(songData);
      if(Number(songData)===0){
        this.getSong();
     }

@@ -163,7 +163,7 @@ export default {
 
 <style lang="less">
 .fullScreen {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -206,7 +206,7 @@ export default {
     height: 5rem;
     -webkit-transition: opacity linear 0.8s;
     transition: opacity linear 0.8s;
-    filter: blur(10px);
+    filter: blur(6px);
     background-size: cover !important;
   }
   .menu-box {

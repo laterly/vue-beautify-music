@@ -20,11 +20,11 @@
       </div>
     </div>
   </div>
-   <van-popup v-model="show" position="bottom" :overlay="true">
+   <van-popup v-model="show" position="bottom" :overlay="true" :lock-scroll="true">
       <div class="van-nav-bar van-hairline--bottom" style="z-index: 1;">
-        <div class="van-nav-bar__left">
-          <i class="van-icon van-icon-exchange van-nav-bar__arrow"></i>
-          <span class="van-nav-bar__text">列表循环<span>(共{{totalSong}}首)</span></span>
+        <div class="van-nav-bar__left"  @click="changePlayMode">
+          <i class="van-icon van-nav-bar__arrow" :class="playModeList[playModeNum-1].icon"></i>
+          <span class="van-nav-bar__text">{{playModeList[playModeNum-1].name}}<span>(共{{totalSong}}首)</span></span>
         </div>
       </div>
       <div style="height:6rem;overflow:auto">
@@ -87,11 +87,28 @@
         value:0,
         show:false,
         list:[],
-        totalSong:0
+        totalSong:0,
+        playModeList:[{
+            id:1,
+            icon:'van-icon-exchange',
+            name:'顺序播放'
+          },
+          {
+            id:2,
+            icon:'van-icon-shrink main-color',
+            name:'随机播放'
+          },
+          {
+            id:3,
+            icon:'van-icon-replay main-color',
+            name:'单曲循环'
+          },
+        ],
+        playModeNum:-1
       }
     },
     created(){
-      console.log(this.$store.state);
+      this.getPlayMode();
     },
     computed: {
       ...mapState({
@@ -118,6 +135,12 @@
           let playMode=store.local.get('playMode');
           if(playMode===1){
             this.next();
+          }else if(playMode===2){
+            //随机播放
+            this.next();
+          }else if(playMode===3){
+            //单曲循环
+            this.replay();
           }
         }
           
@@ -126,6 +149,13 @@
           let site = this.$store.state.player.nowPlaying.newRangeValue / 100 * this.player.nowPlaying.timelength;
           this.$store.dispatch('reviseCurrentTime',document.getElementById('audioPlay').currentTime*1000);
           document.getElementById('audioPlay').currentTime = site / 1000;
+      },
+      replay(){
+          this.$store.dispatch('reviseRange',0);
+          this.$store.dispatch('reviseCurrentTime',0);
+          document.getElementById('audioPlay').currentTime=0;
+          this.$store.dispatch('revisePlay',true);
+          document.getElementById('audioPlay').play();
       },
       revisePlay(){
         if(this.$store.state.player.nowPlaying.song_name=='在线音乐')
@@ -154,12 +184,21 @@
       next(){
         let nowHash=this.$store.state.player.nowPlaying.hash;
         let newPlayList=store.local.get('localPlayList')?store.local.get('localPlayList'):[];
-        if(!newPlayList.length===0){
+        if(newPlayList.length===0){
           this.$toast('播放队列没有歌曲，请先播放几首歌曲后再操作');
           return;
         }
         let data=newPlayList;
         let len=data.length;
+        if(!nowHash){
+          this.songDetails(data[0].hash)
+          return;
+        }
+        if(this.playModeNum===2){
+          let randomNum=Math.round(Math.random()*len);
+          this.songDetails(data[randomNum].hash);
+          return;
+        }
         for(let i=0;i<len;i++){
           if(data[i].hash===nowHash&&len===1){
              this.$toast('播放队列没有歌曲，请先播放几首歌曲后再操作');
@@ -198,6 +237,8 @@
             }
 						return hash !== obj.hash;
 				});
+        this.totalSong=this.list.length;
+        store.local.set('localPlayList',this.list);
       },
       playListPopup(){
         this.show=true;
@@ -223,7 +264,6 @@
         });
       },
       getSongDetails (item) {
-        console.log('zz',this.songDetails(item.hash));
         if(item.hash===this.$store.state.player.nowPlaying.hash){
              this.$store.dispatch('revisePlay',!this.$store.state.player.play);
              return;
@@ -254,6 +294,19 @@
           store.local.set('localPlayList',newPlayList)
         })
       },
+      getPlayMode(){
+        let playMode=store.local.get('playMode');
+        this.playModeNum=playMode;
+      },
+      changePlayMode(){
+        let i=this.playModeNum+1;
+        if(i>3){
+          i=1;
+        }
+        this.playModeNum=i;
+        store.local.set('playMode',i);
+        this.$toast(this.playModeList[i-1].name);
+      }
     }
   }
 </script>
@@ -361,7 +414,7 @@
     }
   }
 .van-popup{
-  .van-nav-bar__arrow {
+  .van-icon-exchange {
     color: #333!important;
   }
   .van-nav-bar__text {

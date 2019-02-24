@@ -64,7 +64,6 @@ export default {
           });
         }
         store.session.set('rankData',this.list);
-        console.log(res);
       });
     },
     onClickLeft() {

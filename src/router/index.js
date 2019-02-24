@@ -22,31 +22,38 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: Index
+      component: Index,
+      name: "index"
     },
     {
       path: "/search",
-      component: Search
+      component: Search,
+      name: "search"
     },
-     {
-       path: "/latest",
-       component: Latest
-     },
-     {
+    {
+      path: "/latest",
+      component: Latest,
+      name: "latest"
+    },
+    {
       path: "/rank",
-      component: Rank
+      component: Rank,
+      name: "rank"
     },
     {
       path: "/menu",
-      component: Menu
+      component: Menu,
+      name: "menu"
     },
     {
       path: "/menuDetail",
-      component: MenuDetail
+      component: MenuDetail,
+      name: "menuDetail"
     },
     {
       path: "/list",
-      component: List
+      component: List,
+      name: "list"
     }
   ]
 });
