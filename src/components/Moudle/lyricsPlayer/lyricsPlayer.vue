@@ -152,13 +152,13 @@
 
 <style lang="less">
   .maxPlayer-fullScreen{
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     background-color: #fff;
-    z-index: 103;
+    z-index: 200;
   }
   .maxPlayer-header{
     position: fixed;
@@ -235,6 +235,7 @@
     right: 0;
     padding: 0 15px;
     text-align: center;
+    z-index:200;
     .maxPlayer-btn{
       height: 68px;
       left: 68px;
