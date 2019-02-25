@@ -305,7 +305,7 @@ export default {
     color: #23e379;
   }
   .song-list-scroll {
-    height: 52vh;
+    height: 53vh;
     overflow: hidden;
   }
 }

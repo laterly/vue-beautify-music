@@ -169,7 +169,9 @@ export default {
           });
         }
         store.session.set("banner", this.slides);
-        if (data.length >= 3) this.swiper.slideNext();
+        this.swiper.update();
+        this.swiper.slideNext();
+        // if (data.length >= 3) this.swiper.slideNext();
       });
     },
     goLink(link) {

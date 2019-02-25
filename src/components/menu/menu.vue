@@ -46,6 +46,12 @@ export default {
   },
   mounted() {},
   methods: {
+    openMenu(specialid) {
+      this.$router.push({
+        path: "/menuDetail",
+        query: { specialid: specialid }
+      });
+    },
     onLoad() {
         // 异步更新数据
         this.page++;
