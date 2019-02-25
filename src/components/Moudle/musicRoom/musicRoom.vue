@@ -63,12 +63,12 @@
   </div>
 </template>
 <script>
-import { mapState} from 'vuex'
+import { mapState } from "vuex";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
-import store from '@/utils/common/store';
-import array from '@/utils/common/array';
-import numberUnit from '@/utils/common/number';
+import store from "@/utils/common/store";
+import array from "@/utils/common/array";
+import numberUnit from "@/utils/common/number";
 export default {
   components: {
     swiper,
@@ -86,7 +86,7 @@ export default {
         "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511015180167&di=3bcedd33a30129b9951be2a81f9b505c&imgtype=0&src=http%3A%2F%2Fpic1.5442.com%2F2015%2F0420%2F06%2F05.jpg"
       ],
       swiperOption: {
-        loop : true,
+        loop: true,
         initialSlide: 1,
         autoplay: {
           delay: 3000,
@@ -94,7 +94,7 @@ export default {
           disableOnInteraction: false
         },
         pagination: {
-            el: '.swiper-pagination'
+          el: ".swiper-pagination"
         },
         autoplayDisableOnInteraction: false,
         centerInsufficientSlides: true,
@@ -103,53 +103,57 @@ export default {
         slidesPerView: "auto", //设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
         centeredSlides: true //<span style="color:rgb(68,68,68);font-family:'microsoft yahei';font-size:13px;">设定为true时，活动块会居中，而不是默认状态下的居左。</span>
       },
-      songData:[],
+      songData: []
     };
   },
   created() {
-    let bannerData=store.session.get('banner')?store.session.get('banner'):[];
-    if(Number(bannerData)===0)
-      this.getBanner();
-    else
-      this.slides=bannerData;
+    let bannerData = store.session.get("banner")
+      ? store.session.get("banner")
+      : [];
+    if (Number(bannerData) === 0) this.getBanner();
+    else this.slides = bannerData;
 
-    let songData=store.session.get('songData')?store.session.get('songData'):[];
-     if(Number(songData)===0){
-       this.getSong();
-    }
-    else{
-       this.songData=songData;
+    let songData = store.session.get("songData")
+      ? store.session.get("songData")
+      : [];
+    if (Number(songData) === 0) {
+      this.getSong();
+    } else {
+      this.songData = songData;
     }
 
     this.setPlayMode();
   },
   computed: {
     swiper() {
-      return this.$refs.mySwiper.swiper
+      return this.$refs.mySwiper.swiper;
     },
-    count () {
-      return this.$store.state.count
+    count() {
+      return this.$store.state.count;
     },
     ...mapState({
-        koGouSize: state => state.koGouSize,
-      })
+      koGouSize: state => state.koGouSize
+    })
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
-    setPlayMode(){
-      let playMode=store.local.get('playMode')?store.local.get('playMode'):1;
-      store.local.set('playMode',playMode);
+    setPlayMode() {
+      let playMode = store.local.get("playMode")
+        ? store.local.get("playMode")
+        : 1;
+      store.local.set("playMode", playMode);
     },
-    openMenu(specialid){
-      this.$router.push({ path: '/menuDetail',query:{specialid:specialid}});
+    openMenu(specialid) {
+      this.$router.push({
+        path: "/menuDetail",
+        query: { specialid: specialid }
+      });
     },
     getBanner() {
-      let load=this.$loading();
+      let load = this.$loading();
       this.$http.getNewSongs().then(res => {
         load.clear();
-        store.session.set('newSong',res.data.data);
+        store.session.set("newSong", res.data.data);
         let data = res.data.banner;
         for (let i = 0; i < data.length; i++) {
           this.slides.push({
@@ -158,35 +162,35 @@ export default {
             title: data[i].title
           });
         }
-        store.session.set('banner',this.slides);
-        if(data.length>=3)
-          this.swiper.slideNext();
+        store.session.set("banner", this.slides);
+        if (data.length >= 3) this.swiper.slideNext();
       });
     },
     goLink(link) {
       this.$router.push({ path: `${link}` });
     },
-    getSong(){
-      let load=this.$loading();
-      this.$http.getSongMenu({
-        page: 0
-      }).then((res) => {
-        load.clear();
-        let data=res.data.plist.list.info;
-        for(let i=0;i<data.length;i++){
-          this.songData.push({
-            suid:data[i].suid,
-            imgUrl:data[i].imgurl,
-            playCount:numberUnit.convert(data[i].playcount),
-            specialName:data[i].specialname,
-            specialid:data[i].specialid
-          });
-        }
-        this.songData=array.splitArrary(this.songData,6);
-        store.session.set('songData',this.songData);
-      })
-    },
-    
+    getSong() {
+      let load = this.$loading();
+      this.$http
+        .getSongMenu({
+          page: 0
+        })
+        .then(res => {
+          load.clear();
+          let data = res.data.plist.list.info;
+          for (let i = 0; i < data.length; i++) {
+            this.songData.push({
+              suid: data[i].suid,
+              imgUrl: data[i].imgurl,
+              playCount: numberUnit.convert(data[i].playcount),
+              specialName: data[i].specialname,
+              specialid: data[i].specialid
+            });
+          }
+          this.songData = array.splitArrary(this.songData, 6);
+          store.session.set("songData", this.songData);
+        });
+    }
   }
 };
 </script>
@@ -195,19 +199,23 @@ export default {
   width: 100%;
   height: auto;
   overflow: hidden;
-  .swiper-slide:first-child{
-     padding-left:0;
+
+  .swiper-slide:first-child {
+    padding-left: 0;
   }
-  .swiper-slide:last-child{
-    padding-right:10px;
+
+  .swiper-slide:last-child {
+    padding-right: 10px;
   }
+
   .swiper-slide {
-    padding-left:.1rem;
-    padding-right:.1rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
     width: 85%;
     height: auto;
+
     img {
-      border-radius 4px;
+      border-radius: 4px;
       display: block;
       margin: 0 auto;
       margin-top: 3.5%;
@@ -221,7 +229,6 @@ export default {
       -o-transition: all 1s ease 0s;
       transition: all 1s ease 0s;
     }
-
   }
 
   .swiper-slide-active {
@@ -230,17 +237,18 @@ export default {
       height: auto;
     }
   }
-  .swiper-pagination-bullet{
+
+  .swiper-pagination-bullet {
     width: 16px;
     height: 2px;
-    background #23e379;  
+    background: #23e379;
   }
 }
 
 .nav {
   margin-top: 0.2rem;
-  // padding-bottom: 0.45rem;
 
+  // padding-bottom: 0.45rem;
   ul {
     margin: 0 0.5rem;
 
@@ -266,93 +274,103 @@ export default {
 }
 
 .swiper-big-box {
-    .title {
-      font-size: 0.52rem;
-      padding-top:.4rem;
-      font-weight: bold;
-      text-indent: 0.48rem;
-    }
-    .recommend {
-      height:auto;
-      .recommend-ul{
-        width: 100%;
-        padding-top .28rem;
-        padding-left .48rem;
-        .swiper-slide:last-child{
-          padding-right:.48rem;
-        }
-        .recommend-li:after{
-            content:'';
-            position:absolute;
-            width:2.8rem;
-            height:2.8rem;
-            margin-right:.48rem;
-            border:1px #23e379 solid;
-            transform: rotate(5deg);
-            border-radius:4px;
-            background:rgba(#23e379,.2);
-            transform-origin:right bottom;
-            left:-3px;
-            top:-1px;
+  .title {
+    font-size: 0.52rem;
+    padding-top: 0.4rem;
+    font-weight: bold;
+    text-indent: 0.48rem;
+  }
+
+  .recommend {
+    height: auto;
+
+    .recommend-ul {
+      width: 100%;
+      padding-top: 0.28rem;
+      padding-left: 0.48rem;
+
+      .swiper-slide:last-child {
+        padding-right: 0.48rem;
+      }
+
+      .recommend-li:after {
+        content: '';
+        position: absolute;
+        width: 2.8rem;
+        height: 2.8rem;
+        margin-right: 0.48rem;
+        border: 1px #23e379 solid;
+        transform: rotate(5deg);
+        border-radius: 4px;
+        background: rgba(#23e379, 0.2);
+        transform-origin: right bottom;
+        left: -3px;
+        top: -1px;
+      }
+
+      .recommend-li {
+        height: auto;
+        width: 2.78rem;
+        margin-top: 0.48rem;
+        float: left;
+        margin-right: 0.62rem;
+
+        .recommend-box {
+          z-index: 2;
+          width: 2.78rem;
+          height: 2.78rem;
+          border-radius: 4px;
+
+          img {
+            width: 2.78rem;
+            height: 100%;
+            border-radius: 4px;
           }
-        .recommend-li{
-          height:auto;
-          width:2.78rem;
-          margin-top:.48rem;
-          float:left;
-          margin-right:.62rem;
-          .recommend-box{
-            z-index:2;
-            width:2.78rem;
-            height:2.78rem;
-            border-radius:4px;
-            img{
-              width:2.78rem;
-              height:100%;
-              border-radius:4px;
-            }
-            .recommend-desc{
-              color #fff;
-              width:100%;
-              height:100%;
-              line-height:4.8rem;
-              vertical middle;
-              bottom:0;
-              border-radius:3px;
-              font-size:12px;
-              // background rgba(0,0,0,.01);
-              box-shadow:inset 0px 15px 15px -15px rgba(0,0,0,1),
-              inset 0px -15px 15px -15px rgba(0,0,0,1);
-              left 0;
-              text-indent: .06rem;
-              span{
-                display:inline-block;
-                height:50px;
-                line-height 50px;
-                padding-bottom:5px;
-              }
+
+          .recommend-desc {
+            color: #fff;
+            width: 100%;
+            height: 100%;
+            line-height: 4.8rem;
+            vertical: middle;
+            bottom: 0;
+            border-radius: 3px;
+            font-size: 12px;
+            // background rgba(0,0,0,.01);
+            // box-shadow:inset 0px 15px 15px -15px rgba(0,0,0,1),
+            // inset 0px -15px 15px -15px rgba(0,0,0,1);
+            left: 0;
+            text-indent: 0.06rem;
+
+            span {
+              display: inline-block;
+              height: 50px;
+              line-height: 50px;
+              padding-bottom: 5px;
             }
           }
-           .text{
-              overflow: hidden;
-              -webkit-line-clamp: 2;
-              line-clamp: 2;
-              -webkit-box-orient: vertical;
-              box-orient: vertical;
-              display: -webkit-box;
-              display: box;
-              font-size:14px;
-              color:#333;
-              height: 1.1rem;
-              padding-top:.1rem;
-              line-height: 0.55rem;
-            }
         }
-        .recommend-li:nth-child(3n){
-          margin-right:0;
+
+        .text {
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          box-orient: vertical;
+          display: -webkit-box;
+          display: box;
+          font-size: 14px;
+          color: #333;
+          height: 1.1rem;
+          padding-top: 0.1rem;
+          line-height: 0.55rem;
         }
       }
-    }
-}
 
+      .recommend-li:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+  }
+}
 </style>

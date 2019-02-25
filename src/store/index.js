@@ -100,9 +100,6 @@ const store = new Vuex.Store({
     loadPlayerList(context, payload) {
       context.commit("loadPlayerList", payload);
     },
-    minusPriceAsync(context, payload) {
-      context.commit("increment", payload);
-    },
     reviseCurrentTime(context, payload) {
       context.commit("reviseCurrentTime", payload);
     },

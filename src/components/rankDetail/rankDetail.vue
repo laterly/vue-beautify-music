@@ -18,13 +18,13 @@
             </div>
           </a>
           <div class="van-card__content rel">
-            <div class="van-card__desc van-ellipsis">来自:{{info.nickname}}</div>
+            <div class="van-card__desc van-ellipsis">更新频率:{{info.publishtime}}</div>
             <div class="van-card__bottom">
               <div class="van-card__price">
-                创建时间:
-                <span>{{info.publishtime}}</span>
+                上次更新时间:
+                <span>{{dateTime}}</span>
               </div>
-              <div class="van-card__num">
+              <!-- <div class="van-card__num">
                 <van-tag
                   round
                   plain
@@ -32,7 +32,7 @@
                   v-for="(item,index) in info.tags"
                   :key="index"
                 >{{item.tagname}}</van-tag>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -79,10 +79,8 @@
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import store from "@/utils/common/store";
+import date from "@/utils/common/date";
 export default {
-  created() {
-    this.getSong();
-  },
   mounted() {
     this.$nextTick(() => {
       this.scroll = new BScroll(this.$refs.wrapper, this.options);
@@ -93,12 +91,17 @@ export default {
     return {
       info: [],
       totalSong: 0,
+      dateTime: 0,
       list: [],
+      page: 0,
       options: {
         click: true,
         taps: true
       }
     };
+  },
+  created() {
+    this.getSong();
   },
   methods: {
     playAll() {
@@ -111,27 +114,34 @@ export default {
     },
     getSong() {
       let load = this.$loading();
-      this.$http.getSongMenuDetails(this.$route.query.specialid).then(res => {
-        load.clear();
-        let list = res.data.info.list;
-        this.info = {
-          imgUrl: list.imgurl.replace("{size}", this.$store.state.koGouSize),
-          specialname: list.specialname,
-          publishtime: list.publishtime,
-          nickname: list.nickname,
-          tags: list.tags
-        };
-        this.$store.dispatch("setMenuTitle", this.info.specialname);
-        let data = res.data.list.list.info;
-        this.totalSong = data.length;
-        for (let i = 0; i < data.length; i++) {
-          this.list.push({
-            filename: data[i].filename,
-            remark: data[i].remark,
-            hash: data[i].hash
-          });
-        }
-      });
+      console.log(this.$route.query.rankid);
+      this.$http
+        .getRankSongList({
+          rankid: this.$route.query.rankid,
+          json: true,
+          page: this.page
+        })
+        .then(res => {
+          console.log(res);
+          load.clear();
+          let list = res.data.info;
+          this.info = {
+            imgUrl: list.imgurl.replace("{size}", this.$store.state.koGouSize),
+            specialname: list.rankname,
+            publishtime: list.update_frequency
+          };
+          this.$store.dispatch("setMenuTitle", this.info.specialname);
+          let data = res.data.songs.list;
+          this.totalSong = data.length;
+          this.dateTime = date.formatDate(res.data.songs.timestamp);
+          for (let i = 0; i < data.length; i++) {
+            this.list.push({
+              filename: data[i].filename,
+              remark: data[i].remark,
+              hash: data[i].hash
+            });
+          }
+        });
     },
     getSongDetails(item) {
       if (item.hash === this.$store.state.player.nowPlaying.hash) {

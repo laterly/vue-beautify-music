@@ -10,10 +10,10 @@
     </div>
 </template>
 <script>
-import http from '@/utils/common/http.js'
-import musicRoom from '@/components/Moudle/musicRoom/musicRoom'
-import my from '@/components/Moudle/my/my'
-import active from '@/components/Moudle/active/active'
+import http from "@/utils/common/http.js";
+import musicRoom from "@/components/Moudle/musicRoom/musicRoom";
+import my from "@/components/Moudle/my/my";
+import active from "@/components/Moudle/active/active";
 export default {
   components: {
     musicRoom,
@@ -22,21 +22,21 @@ export default {
   },
   data() {
     return {
-      active:1,
+      active: 1,
       tabs: [
-          {
-            name: '我的',
-            active: 0
-          },
-          {
-            name: '音乐室',
-            active: 1
-          },
-          {
-            name: '动态',
-            active: 2
-          },
-        ] //搜索的关键字
+        {
+          name: "我的",
+          active: 0
+        },
+        {
+          name: "音乐室",
+          active: 1
+        },
+        {
+          name: "动态",
+          active: 2
+        }
+      ] //搜索的关键字
     };
   },
   created() {
@@ -44,14 +44,9 @@ export default {
     //     console.log(res);
     //   })
   },
-  mounted() {
-    
-  },
-  methods: {
-    
-  }
+  mounted() {},
+  methods: {}
 };
 </script>
 <style lang="stylus" scoped>
-
 </style>
