@@ -28,6 +28,12 @@
           </div>
           <div class="link-des">榜单</div>
         </li>
+        <li @click="goLink('/singer')">
+          <div class="link-icon linkc">
+            <img src="@/assets/index/singer.png" alt class="img-responsive">
+          </div>
+          <div class="link-des">歌手</div>
+        </li>
       </ul>
     </div>
     <div class="swiper-big-box clearfix">
@@ -250,10 +256,10 @@ export default {
 
   // padding-bottom: 0.45rem;
   ul {
-    margin: 0 0.5rem;
+    // margin: 0 0.5rem;
 
     li {
-      width: 33%;
+      width: 25%;
       height: auto;
 
       .link-icon {

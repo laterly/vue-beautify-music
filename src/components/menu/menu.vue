@@ -1,9 +1,10 @@
 <template>
     <div class="menu">
-        <van-nav-bar title="音乐歌单" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
-            <van-icon name="search" slot="right"/>
-        </van-nav-bar>
-        <div class="swiper-big-box clearfix">
+    <van-nav-bar title="音乐歌单" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+        <van-icon name="search" slot="right"/>
+    </van-nav-bar>
+    <div class="swiper-big-box clearfix">
+    <van-list v-model="loading" :finished="finished"  @load="onLoad">
       <div class="swiper-box">
         <div class="recommend">
             <div class="recommend-ul clearfix">
@@ -17,6 +18,7 @@
             </div>
         </div>
       </div>
+      </van-list>
     </div>
     </div>
 </template>
@@ -29,7 +31,9 @@ export default {
   data() {
     return {
       songData: [],
-      page: 0
+      page: 0,
+      loading: false,
+      finished: false
     };
   },
   computed: {
@@ -38,19 +42,32 @@ export default {
     })
   },
   created() {
-    this.getSong();
+    // this.getSong();
   },
   mounted() {},
   methods: {
-    getSong() {
+    onLoad() {
+        // 异步更新数据
+        this.page++;
+        this.getSong(this.page); //获取商品列表
+    },
+    getSong(page) {
       let load = this.$loading();
       this.$http
         .getSongMenu({
-          page: this.page
+          page: page
         })
         .then(res => {
           load.clear();
           let data = res.data.plist.list.info;
+          if (data.length == 0) {
+              this.finished = true;
+              this.loading=false;
+              this.isNodata=true;
+            } else {
+              this.loading = false;
+            }
+
           for (let i = 0; i < data.length; i++) {
             this.songData.push({
               suid: data[i].suid,

@@ -20,7 +20,8 @@ import {
   Lazyload,
   Card,
   Tag,
-  Popup 
+  Popup,
+  List
 } from "vant";
 Vue.use(Icon)
   .use(Button)
@@ -39,7 +40,8 @@ Vue.use(Icon)
   .use(Lazyload)
   .use(Card)
   .use(Tag)
-  .use(Popup);
+  .use(Popup)
+  .use(List);
   Vue.use(Lazyload, {
     preLoad: 1.3,
     error: 'dist/error.png',
