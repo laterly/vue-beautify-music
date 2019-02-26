@@ -7,7 +7,7 @@
 
 ## 项目部分截图
 
-
+> (https://github.com/laterly/vue-beautify-music/blob/master/static/1551159206721.gif)
 
 ## 启动项目
 
