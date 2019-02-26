@@ -7,7 +7,13 @@
 
 ## 项目部分截图
 
-![](https://github.com/laterly/vue-beautify-music/blob/master/static/1551159206721.gif)
+![](https://github.com/laterly/vue-beautify-music/blob/master/static/1551160119749.gif)
+
+## 未完成部分
+
+> 我的
+> 动态
+> 歌手
 
 ## 启动项目
 
