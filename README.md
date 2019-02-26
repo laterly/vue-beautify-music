@@ -1,0 +1,26 @@
+# vue-beautify-music
+> 基于vue-vuex-vue-router,webpack4.0构建的音乐webapp项目
+
+## 接口來源
+
+> 酷狗音乐
+
+## 项目截图
+
+
+
+## 启动项目
+
+``` bash
+npm install --registry=https://registry.npm.taobao.org
+
+npm run dev
+
+npm run prod
+
+```
+
+## 项目依赖
+
+> 请看package.json
+
