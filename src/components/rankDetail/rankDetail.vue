@@ -18,11 +18,11 @@
             </div>
           </a>
           <div class="van-card__content rel">
-            <div class="van-card__desc van-ellipsis">更新频率:{{info.publishtime}}</div>
+            <div class="van-card__desc van-ellipsis"><span v-show="info.publishtime">更新频率:</span>{{info.publishtime}}</div>
             <div class="van-card__bottom">
               <div class="van-card__price">
-                上次更新时间:
-                <span>{{dateTime}}</span>
+                <span v-show="dateTime!='Invalid Date'">上次更新时间:</span>
+                <span v-show="dateTime!='Invalid Date'">{{dateTime}}</span>
               </div>
               <!-- <div class="van-card__num">
                 <van-tag
@@ -101,7 +101,10 @@ export default {
     };
   },
   created() {
+    if(this.$route.query.rankid)
     this.getSong();
+    else
+    this.gerSingerSong();
   },
   methods: {
     playAll() {
@@ -129,6 +132,33 @@ export default {
             imgUrl: list.imgurl.replace("{size}", this.$store.state.koGouSize),
             specialname: list.rankname,
             publishtime: list.update_frequency
+          };
+          this.$store.dispatch("setMenuTitle", this.info.specialname);
+          let data = res.data.songs.list;
+          this.totalSong = data.length;
+          this.dateTime = date.formatDate(res.data.songs.timestamp);
+          for (let i = 0; i < data.length; i++) {
+            this.list.push({
+              filename: data[i].filename,
+              remark: data[i].remark,
+              hash: data[i].hash
+            });
+          }
+        });
+    },
+    gerSingerSong(){
+      let load = this.$loading();
+      console.log(this.$route.query.rankid);
+      this.$http
+        .getSingerInfo( this.$route.query)
+        .then(res => {
+          console.log(res);
+          console.log(res);
+          load.clear();
+          let list = res.data.info;
+          this.info = {
+            imgUrl: list.imgurl.replace("{size}", this.$store.state.koGouSize),
+            
           };
           this.$store.dispatch("setMenuTitle", this.info.specialname);
           let data = res.data.songs.list;

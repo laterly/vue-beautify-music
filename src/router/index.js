@@ -19,6 +19,8 @@ const MenuDetail = () => import("../components/menuDetail/menuDetail");
 const RankDetail = () => import("../components/rankDetail/rankDetail");
 //歌手
 const Singer = () => import("../components/singer/singer");
+//歌手
+const SingerList = () => import("../components/singerList/singerList");
 //歌词播放器
 const LyricsPlayer = () => import("../components/Moudle/lyricsPlayer/lyricsPlayer");
 const List = () => import("../components/list/index");
@@ -65,6 +67,11 @@ export default new Router({
       path: "/singer",
       component: Singer,
       name: "singer"
+    },
+    {
+      path: "/singerList",
+      component: SingerList,
+      name: "singerList"
     },
     {
       path: "/lyricsPlayer",

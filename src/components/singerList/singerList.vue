@@ -14,7 +14,7 @@
     v-for="(item,index) in list" :key="index" @click="goToRankList(item)">
       <img class="rank-img" :src="item.imgUrl.replace('{size}', koGouSize)" />
       <div class="van-cell__value van-cell__value--alone van-contact-card__value">
-        <div>{{item.rankName}}</div>
+        <div>{{item.singerName}}</div>
       </div>
       <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
     </div>
@@ -31,11 +31,7 @@ export default {
     };
   },
   created() {
-    let rankData = store.session.get("singerData")
-      ? store.session.get("singerData")
-      : [];
-    if (Number(rankData) === 0) this.getRank();
-    else this.list = rankData;
+    this.getRank();
   },
   computed: {
     ...mapState({
@@ -47,26 +43,23 @@ export default {
   methods: {
     goToRankList(item) {
       this.$router.push({
-        path: "/singerList",
-        query: { classid: item.rankId,page:0 }
+        path: "/rankDetail",
+        query: { singerid: item.singerId,page:0 }
       });
     },
     getRank() {
       let load = this.$loading();
-      this.$http.getSingerClassify().then(res => {
+      this.$http.getSingerList(this.$route.query).then(res => {
         load.clear();
         console.log(res);
-        let data = res.data.list;
+        let data = res.data.singers.list.info;
         for (let item of data) {
           this.list.push({
-            rankName: item.classname,
-            id: item.id,
+            singerName: item.singername,
             imgUrl: item.imgurl,
-            rankId: item.classid,
-           
+            singerId: item.singerid,
           });
         }
-        store.session.set("singerData", this.list);
       });
     },
     onClickLeft() {
