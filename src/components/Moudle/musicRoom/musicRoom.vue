@@ -12,25 +12,25 @@
       <ul class="flex-row">
         <li @click="goLink('/latest')">
           <div class="link-icon linkc">
-            <img src="@/assets/index/song.png" alt class="img-responsive">
+            <img src="@/assets/index/song.png" alt>
           </div>
           <div class="link-des">最新歌曲</div>
         </li>
         <li @click="goLink('/menu')">
           <div class="link-icon linkc">
-            <img src="@/assets/index/menu.png" alt class="img-responsive">
+            <img src="@/assets/index/menu.png" alt>
           </div>
           <div class="link-des">音乐歌单</div>
         </li>
         <li @click="goLink('/rank')">
           <div class="link-icon linkc">
-            <img src="@/assets/index/rank.png" alt class="img-responsive">
+            <img src="@/assets/index/rank.png" alt>
           </div>
           <div class="link-des">榜单</div>
         </li>
         <li @click="goLink('/singer')">
           <div class="link-icon linkc">
-            <img src="@/assets/index/singer.png" alt class="img-responsive">
+            <img src="@/assets/index/singer.png" alt>
           </div>
           <div class="link-des">歌手</div>
         </li>
@@ -266,6 +266,10 @@ export default {
 
       .link-icon {
         margin: 0 auto;
+        img{
+          height: .8rem;
+          width auto;
+        }
       }
 
       .linkc {

@@ -17,6 +17,8 @@ const Menu = () => import("../components/menu/menu");
 const MenuDetail = () => import("../components/menuDetail/menuDetail");
 //排行榜详情
 const RankDetail = () => import("../components/rankDetail/rankDetail");
+//歌手
+const Singer = () => import("../components/singer/singer");
 //歌词播放器
 const LyricsPlayer = () => import("../components/Moudle/lyricsPlayer/lyricsPlayer");
 const List = () => import("../components/list/index");
@@ -55,10 +57,15 @@ export default new Router({
       name: "menuDetail"
     },
     {
-       path: "/rankDetail",
-       component: RankDetail,
-       name: "rankDetail"
-     },
+      path: "/rankDetail",
+      component: RankDetail,
+      name: "rankDetail"
+    },
+    {
+      path: "/singer",
+      component: Singer,
+      name: "singer"
+    },
     {
       path: "/lyricsPlayer",
       component: LyricsPlayer,
